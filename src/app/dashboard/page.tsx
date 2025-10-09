@@ -4,7 +4,6 @@ import { LeaveCard } from "../components/user/LeaveCard";
 import { LocationCard } from "../components/user/LocationCard";
 import { StatCard } from "../components/user/StatCard";
 import { attendanceRecords, leaveRequests, currentUser } from "@/lib/data";
-import { Check, X } from "lucide-react";
 
 export default function UserDashboardPage() {
   const userAttendance = attendanceRecords.filter(
@@ -25,13 +24,13 @@ export default function UserDashboardPage() {
           <StatCard
             title="Present Days"
             value={presentDays}
-            icon={Check}
+            icon="Check"
             color="text-green-500"
           />
           <StatCard
             title="Leaves Taken"
             value={leaveDays}
-            icon={X}
+            icon="X"
             color="text-red-500"
           />
         </div>
