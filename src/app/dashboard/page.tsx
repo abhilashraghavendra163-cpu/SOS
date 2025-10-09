@@ -6,7 +6,6 @@ import { StatCard } from "../components/user/StatCard";
 import { MyPayrollCard } from "../components/user/MyPayrollCard";
 import { MyLeaveRequests } from "../components/user/MyLeaveRequests";
 import { attendanceRecords, currentUser } from "@/lib/data";
-import { CheckCircle, Clock, XCircle } from "lucide-react";
 
 export default function UserDashboardPage() {
   const userAttendance = attendanceRecords.filter(
@@ -33,19 +32,19 @@ export default function UserDashboardPage() {
         <StatCard
           title="Total Present Days"
           value={presentDays}
-          icon={CheckCircle}
+          iconName="CheckCircle"
           color="text-green-500"
         />
         <StatCard
           title="On-Time Percentage"
           value={`${onTimePercentage}%`}
-          icon={Clock}
+          iconName="Clock"
           color="text-blue-500"
         />
         <StatCard
           title="Total Leaves Taken"
           value={leaveDays}
-          icon={XCircle}
+          iconName="XCircle"
           color="text-red-500"
         />
       </div>

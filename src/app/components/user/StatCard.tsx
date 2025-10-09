@@ -2,16 +2,25 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import type { LucideIcon } from "lucide-react";
+import { CheckCircle, Clock, XCircle, type LucideProps } from "lucide-react";
+import * as React from "react";
+
+const iconMap = {
+  CheckCircle: (props: LucideProps) => <CheckCircle {...props} />,
+  Clock: (props: LucideProps) => <Clock {...props} />,
+  XCircle: (props: LucideProps) => <XCircle {...props} />,
+};
 
 type StatCardProps = {
   title: string;
   value: number | string;
-  icon: LucideIcon;
+  iconName: keyof typeof iconMap;
   color?: string;
 };
 
-export function StatCard({ title, value, icon: Icon, color }: StatCardProps) {
+export function StatCard({ title, value, iconName, color }: StatCardProps) {
+  const Icon = iconMap[iconName];
+
   return (
     <Card className="transform transition-transform duration-300 hover:scale-[1.05] hover:shadow-lg">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
