@@ -6,6 +6,8 @@ import { StatCard } from "../components/user/StatCard";
 import { MyPayrollCard } from "../components/user/MyPayrollCard";
 import { MyLeaveRequests } from "../components/user/MyLeaveRequests";
 import { attendanceRecords, currentUser } from "@/lib/data";
+import { MyDocumentsCard } from "../components/user/MyDocumentsCard";
+import { PayslipsCard } from "../components/user/PayslipsCard";
 
 export default function UserDashboardPage() {
   const userAttendance = attendanceRecords.filter(
@@ -59,6 +61,8 @@ export default function UserDashboardPage() {
             <LeaveCard />
             <MyLeaveRequests />
           </div>
+          <PayslipsCard />
+          <MyDocumentsCard />
           <LocationCard />
         </div>
       </div>
