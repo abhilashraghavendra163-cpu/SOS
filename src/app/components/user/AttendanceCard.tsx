@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Clock, TimerOff, Camera, CheckCircle } from "lucide-react";
+import { Clock, TimerOff, Camera, CheckCircle, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -20,6 +20,7 @@ export function AttendanceCard() {
   const [timer, setTimer] = useState(0);
   const [lastPunchPhoto, setLastPunchPhoto] = useState<string | null>(null);
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
+  const [punchInLocation, setPunchInLocation] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { toast } = useToast();
@@ -123,6 +124,12 @@ export function AttendanceCard() {
       (position) => {
         const newPunchedInState = !isPunchedIn;
         setIsPunchedIn(newPunchedInState);
+        if (newPunchedInState) {
+          setPunchInLocation(`${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`);
+        } else {
+          setPunchInLocation(null);
+        }
+        
         toast({
           title: `Successfully Punched ${newPunchedInState ? "In" : "Out"}!`,
           description: `Your attendance has been recorded at ${new Date().toLocaleTimeString()}.`,
@@ -185,6 +192,13 @@ export function AttendanceCard() {
           <div className={`w-3 h-3 rounded-full ${isPunchedIn ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
           {isPunchedIn ? "You are punched in" : "You are punched out"}
         </div>
+        
+        {isPunchedIn && punchInLocation && (
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <MapPin className="h-4 w-4" />
+            <span>Location: {punchInLocation}</span>
+          </div>
+        )}
 
         <Button
           onClick={handlePunch}
