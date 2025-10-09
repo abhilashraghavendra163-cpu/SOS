@@ -13,7 +13,7 @@ import {
   SidebarFooter,
   SidebarInset,
 } from "@/components/ui/sidebar";
-import { LogOut, LayoutDashboard } from "lucide-react";
+import { LogOut, LayoutDashboard, Wallet } from "lucide-react";
 import { AppIcon } from "../components/AppIcon";
 import { DashboardHeader } from "../components/DashboardHeader";
 import { adminUser } from "@/lib/data";
@@ -23,6 +23,11 @@ const menuItems = [
     href: "/admin",
     label: "Dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    href: "/admin/payroll",
+    label: "Payroll",
+    icon: Wallet,
   },
 ];
 

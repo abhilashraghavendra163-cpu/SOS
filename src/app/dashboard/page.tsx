@@ -3,6 +3,7 @@ import { AttendanceCard } from "../components/user/AttendanceCard";
 import { LeaveCard } from "../components/user/LeaveCard";
 import { LocationCard } from "../components/user/LocationCard";
 import { StatCard } from "../components/user/StatCard";
+import { MyPayrollCard } from "../components/user/MyPayrollCard";
 import { attendanceRecords, currentUser } from "@/lib/data";
 
 export default function UserDashboardPage() {
@@ -20,6 +21,7 @@ export default function UserDashboardPage() {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-1 flex flex-col gap-6">
         <AttendanceCard />
+        <MyPayrollCard />
         <div className="grid grid-cols-2 gap-6">
           <StatCard
             title="Present Days"
