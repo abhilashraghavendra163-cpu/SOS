@@ -1,2 +1,3 @@
 // Flows will be imported for their side effects in this file.
 import './flows/summarize-leave-request-flow';
+import './flows/summarize-analytics-flow';

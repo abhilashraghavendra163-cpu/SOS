@@ -1,12 +1,15 @@
 "use client"
 
+import { useState } from "react"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
+  CardFooter,
 } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import {
   BarChart,
   Bar,
@@ -21,6 +24,9 @@ import {
   Cell,
 } from "recharts"
 import { attendanceRecords } from "@/lib/data"
+import { summarizeAnalytics } from "@/ai/flows/summarize-analytics-flow"
+import { useToast } from "@/hooks/use-toast"
+import { Sparkles, Loader, Lightbulb } from "lucide-react"
 
 const attendanceByDay = attendanceRecords.reduce((acc, record) => {
   const day = new Date(record.date).toLocaleDateString('en-US', { weekday: 'short' });
@@ -63,6 +69,29 @@ const COLORS = {
 
 
 export function AnalyticsTab() {
+    const [summary, setSummary] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const { toast } = useToast();
+
+    const handleGenerateSummary = async () => {
+        setIsLoading(true);
+        setSummary(null);
+        try {
+            const result = await summarizeAnalytics({ attendanceData: attendanceRecords });
+            setSummary(result.summary);
+        } catch (error) {
+            console.error("Failed to get summary:", error);
+            toast({
+                variant: "destructive",
+                title: "AI Summary Failed",
+                description: "Could not generate an analytics summary.",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
       <Card>
@@ -123,6 +152,37 @@ export function AnalyticsTab() {
             </PieChart>
           </ResponsiveContainer>
         </CardContent>
+      </Card>
+      <Card className="lg:col-span-2">
+        <CardHeader>
+            <CardTitle className="font-bold flex items-center gap-2">
+                <Sparkles className="text-primary" />
+                AI-Powered Analytics Summary
+            </CardTitle>
+            <CardDescription>
+                Click the button to generate an AI summary of the weekly attendance data.
+            </CardDescription>
+        </CardHeader>
+        <CardContent>
+            {isLoading && (
+                <div className="flex items-center gap-2 text-muted-foreground">
+                    <Loader className="animate-spin h-5 w-5" />
+                    <span>Generating summary...</span>
+                </div>
+            )}
+            {summary && (
+                <div className="flex items-start gap-3 p-4 rounded-md bg-muted/50 border">
+                    <Lightbulb className="w-5 h-5 mt-1 text-primary" />
+                    <p className="text-foreground">{summary}</p>
+                </div>
+            )}
+        </CardContent>
+        <CardFooter>
+             <Button onClick={handleGenerateSummary} disabled={isLoading}>
+                <Sparkles className="mr-2 h-4 w-4" />
+                Generate AI Summary
+            </Button>
+        </CardFooter>
       </Card>
     </div>
   )
