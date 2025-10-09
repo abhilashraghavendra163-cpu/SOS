@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -40,11 +41,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { users as initialUsers, notifications as initialNotifications } from "@/lib/data";
+import { users as initialUsers, notifications as initialNotifications, offices } from "@/lib/data";
 import { UserPlus, FilePen, Trash2, Megaphone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { User, Notification } from "@/lib/types";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 export function UserManagementTab() {
   const [users, setUsers] = useState<User[]>(initialUsers);
@@ -174,6 +176,21 @@ export function UserManagementTab() {
                   <Label htmlFor="hourly-rate">Hourly Rate ($)</Label>
                   <Input id="hourly-rate" type="number" placeholder="e.g. 25" />
                 </div>
+                 <div className="grid gap-2">
+                    <Label htmlFor="officeId">Assign Office</Label>
+                    <Select name="officeId">
+                        <SelectTrigger>
+                            <SelectValue placeholder="Select an office" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {offices.map(office => (
+                                <SelectItem key={office.id} value={office.id}>
+                                    {office.name}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
               </div>
               <DialogFooter>
                 <Button onClick={handleAddUser}>Create User</Button>
@@ -187,6 +204,7 @@ export function UserManagementTab() {
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead>Office</TableHead>
                 <TableHead>Hourly Rate</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -197,6 +215,7 @@ export function UserManagementTab() {
                 <TableRow key={user.id} className="transition-colors hover:bg-muted/50">
                   <TableCell className="font-medium">{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
+                   <TableCell>{offices.find(o => o.id === user.officeId)?.name ?? 'N/A'}</TableCell>
                    <TableCell>${user.hourlyRate?.toFixed(2) ?? 'N/A'}</TableCell>
                   <TableCell>
                     <Badge variant={user.role === "Admin" ? "default" : "secondary"}>
@@ -226,6 +245,21 @@ export function UserManagementTab() {
                              <div className="grid gap-2">
                               <Label htmlFor="hourly-rate-edit">Hourly Rate ($)</Label>
                               <Input id="hourly-rate-edit" type="number" defaultValue={user.hourlyRate?.toString() ?? ''} />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="officeId-edit">Assign Office</Label>
+                                <Select name="officeId-edit" defaultValue={user.officeId}>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select an office" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {offices.map(office => (
+                                            <SelectItem key={office.id} value={office.id}>
+                                                {office.name}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
                             </div>
                           </div>
                           <DialogFooter>
@@ -263,3 +297,5 @@ export function UserManagementTab() {
     </Card>
   );
 }
+
+    
