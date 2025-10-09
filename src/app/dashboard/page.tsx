@@ -1,6 +1,7 @@
 import { MyAttendance } from "../components/user/MyAttendance";
 import { AttendanceCard } from "../components/user/AttendanceCard";
 import { LeaveCard } from "../components/user/LeaveCard";
+import { LocationCard } from "../components/user/LocationCard";
 
 export default function UserDashboardPage() {
   return (
@@ -8,6 +9,7 @@ export default function UserDashboardPage() {
       <div className="lg:col-span-1 flex flex-col gap-6">
         <AttendanceCard />
         <LeaveCard />
+        <LocationCard />
       </div>
       <div className="lg:col-span-2">
         <MyAttendance />

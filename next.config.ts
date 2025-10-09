@@ -30,6 +30,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+   env: {
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: "YOUR_GOOGLE_MAPS_API_KEY_HERE",
+  }
 };
 
 export default nextConfig;
