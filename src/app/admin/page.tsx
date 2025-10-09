@@ -8,8 +8,8 @@ import { AnalyticsTab } from "../components/admin/AnalyticsTab";
 
 export default function AdminDashboardPage() {
   return (
-    <Tabs defaultValue="attendance" className="w-full lg:flex lg:gap-6" orientation="vertical">
-      <TabsList className="grid w-full grid-cols-1 md:grid-cols-5 lg:w-auto lg:grid-cols-1">
+    <Tabs defaultValue="attendance" className="w-full">
+      <TabsList className="grid w-full grid-cols-1 sm:grid-cols-2 md:grid-cols-5">
         <TabsTrigger value="attendance" className="justify-start">
           <CalendarDays className="mr-2 h-4 w-4" />
           Attendance
@@ -31,7 +31,7 @@ export default function AdminDashboardPage() {
           Analytics
         </TabsTrigger>
       </TabsList>
-      <div className="flex-1">
+      <div className="flex-1 mt-4">
         <TabsContent value="attendance">
           <AttendanceTab />
         </TabsContent>
