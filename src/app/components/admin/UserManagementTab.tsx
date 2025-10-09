@@ -108,6 +108,20 @@ export function UserManagementTab() {
       closeButton.click();
     }
   };
+  
+  const getOfficeDisplay = (officeId?: string) => {
+    if (!officeId) return 'N/A';
+    const office = offices.find(o => o.id === officeId);
+    if (!office) return 'N/A';
+    return (
+      <div className="flex flex-col">
+        <span className="font-medium">{office.name}</span>
+        <span className="text-xs text-muted-foreground">
+          ({office.latitude.toFixed(4)}, {office.longitude.toFixed(4)})
+        </span>
+      </div>
+    );
+  };
 
   return (
     <Card>
@@ -185,7 +199,7 @@ export function UserManagementTab() {
                         <SelectContent>
                             {offices.map(office => (
                                 <SelectItem key={office.id} value={office.id}>
-                                    {office.name}
+                                    {office.name} ({office.latitude.toFixed(2)}, {office.longitude.toFixed(2)})
                                 </SelectItem>
                             ))}
                         </SelectContent>
@@ -215,7 +229,7 @@ export function UserManagementTab() {
                 <TableRow key={user.id} className="transition-colors hover:bg-muted/50">
                   <TableCell className="font-medium">{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                   <TableCell>{offices.find(o => o.id === user.officeId)?.name ?? 'N/A'}</TableCell>
+                   <TableCell>{getOfficeDisplay(user.officeId)}</TableCell>
                    <TableCell>${user.hourlyRate?.toFixed(2) ?? 'N/A'}</TableCell>
                   <TableCell>
                     <Badge variant={user.role === "Admin" ? "default" : "secondary"}>
@@ -255,7 +269,7 @@ export function UserManagementTab() {
                                     <SelectContent>
                                         {offices.map(office => (
                                             <SelectItem key={office.id} value={office.id}>
-                                                {office.name}
+                                                {office.name} ({office.latitude.toFixed(2)}, {office.longitude.toFixed(2)})
                                             </SelectItem>
                                         ))}
                                     </SelectContent>
