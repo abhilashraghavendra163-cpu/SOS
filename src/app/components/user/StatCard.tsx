@@ -2,13 +2,14 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { CheckCircle, Clock, XCircle, type LucideProps } from "lucide-react";
+import { CheckCircle, Clock, XCircle, Users, type LucideProps } from "lucide-react";
 import * as React from "react";
 
 const iconMap = {
   CheckCircle: (props: LucideProps) => <CheckCircle {...props} />,
   Clock: (props: LucideProps) => <Clock {...props} />,
   XCircle: (props: LucideProps) => <XCircle {...props} />,
+  Users: (props: LucideProps) => <Users {...props} />,
 };
 
 type StatCardProps = {
