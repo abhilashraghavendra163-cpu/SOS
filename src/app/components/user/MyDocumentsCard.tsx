@@ -11,16 +11,37 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { FileText, Save } from "lucide-react";
+import { FileText, Upload, Paperclip } from "lucide-react";
+import { useState } from "react";
+
+const documentTypes = [
+  { id: 'pan', label: 'PAN Card' },
+  { id: 'aadhar', label: 'Aadhar Card' },
+  { id: 'bank', label: 'Bank Statement/Passbook' },
+];
 
 export function MyDocumentsCard() {
   const { toast } = useToast();
+  const [uploadedFiles, setUploadedFiles] = useState<Record<string, File | null>>({
+    pan: null,
+    aadhar: null,
+    bank: null,
+  });
 
-  const handleSave = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, docId: string) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setUploadedFiles(prev => ({ ...prev, [docId]: file }));
+    }
+  };
+
+  const handleUpload = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // In a real app, you would upload files to a backend service like Firebase Storage.
+    console.log("Uploading files:", uploadedFiles);
     toast({
-      title: "Documents Saved",
-      description: "Your personal documents have been securely updated.",
+      title: "Documents Uploaded",
+      description: "Your documents have been securely uploaded for verification.",
     });
   };
 
@@ -32,30 +53,39 @@ export function MyDocumentsCard() {
           My Documents
         </CardTitle>
         <CardDescription>
-          Manage your personal and bank account details.
+          Upload your personal documents for verification.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSave} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="pan">PAN Number</Label>
-            <Input id="pan" placeholder="ABCDE1234F" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="aadhar">Aadhar Number</Label>
-            <Input id="aadhar" placeholder="1234 5678 9012" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="bank-account">Bank Account Number</Label>
-            <Input id="bank-account" placeholder="0123456789" />
-          </div>
-           <div className="space-y-2">
-            <Label htmlFor="bank-ifsc">IFSC Code</Label>
-            <Input id="bank-ifsc" placeholder="ABCD0123456" />
-          </div>
+        <form onSubmit={handleUpload} className="space-y-6">
+          {documentTypes.map(doc => (
+            <div key={doc.id} className="space-y-2">
+              <Label htmlFor={doc.id}>{doc.label}</Label>
+              <div className="flex items-center gap-2">
+                <Input
+                  id={doc.id}
+                  type="file"
+                  onChange={(e) => handleFileChange(e, doc.id)}
+                  className="hidden"
+                />
+                <Label htmlFor={doc.id} className="flex-1">
+                  <Button asChild variant="outline" className="w-full justify-start cursor-pointer">
+                    <div>
+                      <Paperclip className="mr-2 h-4 w-4" />
+                      {uploadedFiles[doc.id] ? (
+                        <span className="truncate">{uploadedFiles[doc.id]?.name}</span>
+                      ) : (
+                        'Choose a file...'
+                      )}
+                    </div>
+                  </Button>
+                </Label>
+              </div>
+            </div>
+          ))}
           <Button type="submit" className="w-full font-bold">
-            <Save className="mr-2 h-4 w-4" />
-            Save Documents
+            <Upload className="mr-2 h-4 w-4" />
+            Upload All Documents
           </Button>
         </form>
       </CardContent>

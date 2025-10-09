@@ -1,4 +1,4 @@
-import type { User, AttendanceRecord, LeaveRequest, Payroll, Notification } from './types';
+import type { User, AttendanceRecord, LeaveRequest, Payroll, Notification, UserDocument } from './types';
 
 export const users: User[] = [
   { id: '1', name: 'Alex Johnson', email: 'alex.j@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user1/100/100', hourlyRate: 25 },
@@ -49,4 +49,10 @@ export const notifications: Notification[] = [
     { id: 'n2', userId: '4', title: 'New Leave Request', description: 'Maria Garcia has requested leave for 2024-08-05.', timestamp: '1 hour ago', read: false },
     { id: 'n3', userId: '4', title: 'New Leave Request', description: 'James Smith has requested leave for 2024-08-10.', timestamp: '3 hours ago', read: true },
     { id: 'n4', userId: '5', title: 'Leave Approved', description: 'Your leave request for 2024-07-30 has been approved.', timestamp: '1 day ago', read: true },
+];
+
+export const userDocuments: UserDocument[] = [
+  { id: 'd1', userId: '1', userName: 'Alex Johnson', documentType: 'PAN', fileName: 'alex_pan.pdf', fileUrl: '#', uploadedAt: '2024-07-20' },
+  { id: 'd2', userId: '1', userName: 'Alex Johnson', documentType: 'Aadhar', fileName: 'alex_aadhar.pdf', fileUrl: '#', uploadedAt: '2024-07-20' },
+  { id: 'd3', userId: '2', userName: 'Maria Garcia', documentType: 'PAN', fileName: 'maria_pan.pdf', fileUrl: '#', uploadedAt: '2024-07-21' },
 ];

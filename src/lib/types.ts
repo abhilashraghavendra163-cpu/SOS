@@ -48,3 +48,13 @@ export type Notification = {
     timestamp: string;
     read: boolean;
 };
+
+export type UserDocument = {
+  id: string;
+  userId: string;
+  userName: string;
+  documentType: 'PAN' | 'Aadhar' | 'Bank Statement';
+  fileName: string;
+  fileUrl: string; // In a real app, this would be a secure URL from a storage service
+  uploadedAt: string;
+};
