@@ -56,10 +56,14 @@ export default function UserDashboardPage() {
             <LeaveCard />
             <MyLeaveRequests />
         </div>
-        <MyPayrollCard />
-        <PayslipsCard />
-        <MyDocumentsCard />
-        <LocationCard />
+        <div className="flex flex-col gap-6">
+          <MyPayrollCard />
+          <PayslipsCard />
+        </div>
+        <div className="flex flex-col gap-6">
+          <MyDocumentsCard />
+        </div>
+         <LocationCard />
       </div>
       <div>
         <MyAttendance />
