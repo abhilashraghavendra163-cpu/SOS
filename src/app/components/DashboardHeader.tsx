@@ -16,6 +16,7 @@ import type { User } from "@/lib/types"
 import { LogOut, Settings, User as UserIcon } from "lucide-react"
 import { NotificationBell } from "./NotificationBell"
 import { notifications } from "@/lib/data"
+import { ThemeToggle } from "./ThemeToggle"
 
 
 type DashboardHeaderProps = {
@@ -31,6 +32,7 @@ export function DashboardHeader({ user, title }: DashboardHeaderProps) {
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
       <SidebarTrigger className="md:hidden" />
       <h1 className="flex-1 text-xl font-bold tracking-tight">{title}</h1>
+      <ThemeToggle />
       <NotificationBell notifications={userNotifications} />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
