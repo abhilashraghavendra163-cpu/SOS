@@ -6,6 +6,9 @@ export type User = {
   avatarUrl: string;
   hourlyRate?: number;
   officeId?: string;
+  mobileNumber?: string;
+  accountNumber?: string;
+  ifscCode?: string;
 };
 
 export type Office = {

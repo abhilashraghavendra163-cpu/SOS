@@ -47,6 +47,7 @@ import { useToast } from "@/hooks/use-toast";
 import type { User, Notification } from "@/lib/types";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function UserManagementTab() {
   const [users, setUsers] = useState<User[]>(initialUsers);
@@ -170,14 +171,14 @@ export function UserManagementTab() {
                 Add User
               </Button>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="max-w-2xl">
               <DialogHeader>
                 <DialogTitle className="font-bold">Add New User</DialogTitle>
                 <DialogDescription>
                   Fill in the details to create a new user account.
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
                 <div className="grid gap-2">
                   <Label htmlFor="name">Full Name</Label>
                   <Input id="name" placeholder="e.g. John Doe" />
@@ -186,11 +187,23 @@ export function UserManagementTab() {
                   <Label htmlFor="email">Email</Label>
                   <Input id="email" type="email" placeholder="e.g. john@example.com" />
                 </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="mobileNumber">Mobile Number</Label>
+                  <Input id="mobileNumber" placeholder="e.g. 987-654-3210" />
+                </div>
                  <div className="grid gap-2">
                   <Label htmlFor="hourly-rate">Hourly Rate ($)</Label>
                   <Input id="hourly-rate" type="number" placeholder="e.g. 25" />
                 </div>
-                 <div className="grid gap-2">
+                <div className="grid gap-2">
+                  <Label htmlFor="accountNumber">Bank Account Number</Label>
+                  <Input id="accountNumber" placeholder="e.g. 1234567890" />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="ifscCode">IFSC Code</Label>
+                  <Input id="ifscCode" placeholder="e.g. BANK0001234" />
+                </div>
+                 <div className="grid gap-2 md:col-span-2">
                     <Label htmlFor="officeId">Assign Office</Label>
                     <Select name="officeId">
                         <SelectTrigger>
@@ -212,13 +225,14 @@ export function UserManagementTab() {
             </DialogContent>
           </Dialog>
         </div>
-        <div className="relative w-full overflow-auto">
+        <ScrollArea className="h-[550px] w-full">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
+                <TableHead>Contact</TableHead>
                 <TableHead>Office</TableHead>
+                <TableHead>Bank Details</TableHead>
                 <TableHead>Hourly Rate</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -228,8 +242,19 @@ export function UserManagementTab() {
               {users.map((user) => (
                 <TableRow key={user.id} className="transition-colors hover:bg-muted/50">
                   <TableCell className="font-medium">{user.name}</TableCell>
-                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                        <span>{user.email}</span>
+                        <span className="text-xs text-muted-foreground">{user.mobileNumber}</span>
+                    </div>
+                  </TableCell>
                    <TableCell>{getOfficeDisplay(user.officeId)}</TableCell>
+                   <TableCell>
+                     <div className="flex flex-col">
+                        <span className="text-sm">{user.accountNumber ?? 'N/A'}</span>
+                        <span className="text-xs text-muted-foreground">{user.ifscCode ?? 'N/A'}</span>
+                    </div>
+                   </TableCell>
                    <TableCell>${user.hourlyRate?.toFixed(2) ?? 'N/A'}</TableCell>
                   <TableCell>
                     <Badge variant={user.role === "Admin" ? "default" : "secondary"}>
@@ -243,11 +268,11 @@ export function UserManagementTab() {
                            <FilePen className="h-4 w-4" />
                          </Button>
                        </DialogTrigger>
-                       <DialogContent>
+                       <DialogContent className="max-w-2xl">
                           <DialogHeader>
                             <DialogTitle className="font-bold">Edit User</DialogTitle>
                           </DialogHeader>
-                          <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
                             <div className="grid gap-2">
                               <Label htmlFor="name-edit">Full Name</Label>
                               <Input id="name-edit" defaultValue={user.name} />
@@ -256,11 +281,23 @@ export function UserManagementTab() {
                               <Label htmlFor="email-edit">Email</Label>
                               <Input id="email-edit" type="email" defaultValue={user.email} />
                             </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="mobileNumber-edit">Mobile Number</Label>
+                                <Input id="mobileNumber-edit" defaultValue={user.mobileNumber} />
+                            </div>
                              <div className="grid gap-2">
                               <Label htmlFor="hourly-rate-edit">Hourly Rate ($)</Label>
                               <Input id="hourly-rate-edit" type="number" defaultValue={user.hourlyRate?.toString() ?? ''} />
                             </div>
+                             <div className="grid gap-2">
+                                <Label htmlFor="accountNumber-edit">Bank Account Number</Label>
+                                <Input id="accountNumber-edit" defaultValue={user.accountNumber} />
+                            </div>
                             <div className="grid gap-2">
+                                <Label htmlFor="ifscCode-edit">IFSC Code</Label>
+                                <Input id="ifscCode-edit" defaultValue={user.ifscCode} />
+                            </div>
+                            <div className="grid gap-2 md:col-span-2">
                                 <Label htmlFor="officeId-edit">Assign Office</Label>
                                 <Select name="officeId-edit" defaultValue={user.officeId}>
                                     <SelectTrigger>
@@ -306,10 +343,8 @@ export function UserManagementTab() {
               ))}
             </TableBody>
           </Table>
-        </div>
+        </ScrollArea>
       </CardContent>
     </Card>
   );
 }
-
-    
