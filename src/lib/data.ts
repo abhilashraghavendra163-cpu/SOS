@@ -10,11 +10,11 @@ export const offices: Office[] = Array.from({ length: 24 }, (_, i) => ({
 
 
 export const users: User[] = [
-  { id: '1', name: 'Alex Johnson', email: 'alex.j@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user1/100/100', hourlyRate: 25, officeId: 'office1' },
-  { id: '2', name: 'Maria Garcia', email: 'maria.g@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user2/100/100', hourlyRate: 22, officeId: 'office2' },
-  { id: '3', name: 'James Smith', email: 'james.s@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user3/100/100', hourlyRate: 30, officeId: 'office3' },
-  { id: '4', name: 'Priya Patel', email: 'priya.p@example.com', role: 'Admin', avatarUrl: 'https://picsum.photos/seed/admin1/100/100', hourlyRate: 50 },
-  { id: '5', name: 'Chen Wei', email: 'chen.w@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user4/100/100', hourlyRate: 28, officeId: 'office4' },
+  { id: '1', name: 'Alex Johnson', email: 'alex.j@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user1/100/100', hourlyRate: 25, officeId: 'office1', mobileNumber: '123-456-7890', accountNumber: '1234567890', ifscCode: 'ABC0000123' },
+  { id: '2', name: 'Maria Garcia', email: 'maria.g@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user2/100/100', hourlyRate: 22, officeId: 'office2', mobileNumber: '234-567-8901', accountNumber: '0987654321', ifscCode: 'DEF0000456' },
+  { id: '3', name: 'James Smith', email: 'james.s@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user3/100/100', hourlyRate: 30, officeId: 'office3', mobileNumber: '345-678-9012', accountNumber: '1122334455', ifscCode: 'GHI0000789' },
+  { id: '4', name: 'Priya Patel', email: 'priya.p@example.com', role: 'Admin', avatarUrl: 'https://picsum.photos/seed/admin1/100/100', hourlyRate: 50, mobileNumber: '456-789-0123' },
+  { id: '5', name: 'Chen Wei', email: 'chen.w@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user4/100/100', hourlyRate: 28, officeId: 'office4', mobileNumber: '567-890-1234', accountNumber: '5566778899', ifscCode: 'JKL0000101' },
   // Add more users and assign them to offices
   ...Array.from({ length: 19 }, (_, i) => ({
     id: `${i + 6}`,
@@ -23,7 +23,10 @@ export const users: User[] = [
     role: 'User' as const,
     avatarUrl: `https://picsum.photos/seed/user${i + 6}/100/100`,
     hourlyRate: 20 + i,
-    officeId: `office${i + 5}`
+    officeId: `office${i + 5}`,
+    mobileNumber: `555-555-${5000 + i}`,
+    accountNumber: `${Math.floor(1000000000 + Math.random() * 9000000000)}`,
+    ifscCode: `XYZ000${1000 + i}`
   }))
 ];
 
