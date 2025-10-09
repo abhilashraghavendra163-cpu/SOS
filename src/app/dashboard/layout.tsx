@@ -39,7 +39,7 @@ export default function UserDashboardLayout({
         <SidebarHeader>
           <div className="flex items-center gap-2 p-2">
             <AppIcon className="w-8 h-8" />
-            <span className="text-lg font-headline font-semibold text-sidebar-foreground">
+            <span className="text-lg font-bold text-sidebar-foreground">
               AttendEase
             </span>
           </div>
@@ -72,7 +72,7 @@ export default function UserDashboardLayout({
       </Sidebar>
       <SidebarInset>
         <DashboardHeader user={currentUser} title="User Dashboard" />
-        <main className="p-4 sm:p-6">{children}</main>
+        <main className="p-4 sm:p-6 bg-muted/40">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

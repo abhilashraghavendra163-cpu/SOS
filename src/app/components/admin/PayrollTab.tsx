@@ -36,7 +36,7 @@ export function PayrollTab() {
       <CardHeader>
         <div className="flex justify-between items-start">
           <div>
-            <CardTitle className="font-headline">Payroll Overview</CardTitle>
+            <CardTitle className="font-bold">Payroll Overview</CardTitle>
             <CardDescription>
               View and manage payroll for all users.
             </CardDescription>

@@ -24,25 +24,25 @@ export function MyAttendance() {
     (record) => record.userId === currentUser.id
   );
 
-  const getStatusVariant = (status: string) => {
+  const getStatusClass = (status: string) => {
     switch (status) {
       case "Present":
-        return "default";
-      case "On Leave":
-        return "secondary";
+        return "bg-green-500/10 text-green-500 border-green-500/20";
       case "Late":
-        return "destructive";
+        return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
       case "In Progress":
-        return "outline";
+        return "bg-blue-500/10 text-blue-500 border-blue-500/20 animate-pulse";
+      case "On Leave":
+        return "bg-gray-500/10 text-gray-500 border-gray-500/20";
       default:
-        return "default";
+        return "bg-muted text-muted-foreground border-border";
     }
   };
 
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle className="font-headline flex items-center gap-2">
+        <CardTitle className="font-bold flex items-center gap-2">
           <CalendarDays className="w-6 h-6" />
           My Attendance
         </CardTitle>
@@ -51,9 +51,9 @@ export function MyAttendance() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[480px]">
+        <ScrollArea className="h-[calc(100vh-22rem)]">
           <Table>
-            <TableHeader className="sticky top-0 bg-card">
+            <TableHeader className="sticky top-0 bg-card z-10">
               <TableRow>
                 <TableHead>Date</TableHead>
                 <TableHead>Punch In</TableHead>
@@ -64,20 +64,15 @@ export function MyAttendance() {
             </TableHeader>
             <TableBody>
               {userAttendance.map((record) => (
-                <TableRow key={record.id}>
+                <TableRow key={record.id} className="hover:bg-muted/50">
                   <TableCell className="font-medium">{record.date}</TableCell>
                   <TableCell>{record.punchIn}</TableCell>
-                  <TableCell>{record.punchOut ?? "-"}</TableCell>
+                  <TableCell>{record.punchOut ?? "—"}</TableCell>
                   <TableCell>{record.hours}</TableCell>
                   <TableCell className="text-right">
                     <Badge
-                      variant={getStatusVariant(record.status)}
-                      className={cn("text-xs", {
-                          "bg-green-500/20 text-green-700 border-green-500/30 hover:bg-green-500/30": record.status === 'Present',
-                          "bg-yellow-500/20 text-yellow-700 border-yellow-500/30 hover:bg-yellow-500/30": record.status === 'Late',
-                          "bg-blue-500/20 text-blue-700 border-blue-500/30 hover:bg-blue-500/30": record.status === 'In Progress',
-                          "bg-gray-500/20 text-gray-700 border-gray-500/30 hover:bg-gray-500/30": record.status === 'On Leave'
-                      })}
+                      className={cn("text-xs font-semibold", getStatusClass(record.status))}
+                      variant="outline"
                     >
                       {record.status}
                     </Badge>

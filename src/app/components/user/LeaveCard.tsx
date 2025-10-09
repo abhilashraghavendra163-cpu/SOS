@@ -40,9 +40,9 @@ export function LeaveCard() {
   };
 
   return (
-    <Card className="w-full transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
+    <Card className="w-full">
       <CardHeader>
-        <CardTitle className="font-headline flex items-center gap-2">
+        <CardTitle className="font-bold flex items-center gap-2">
           <CalendarPlus className="w-6 h-6" />
           Apply for Leave
         </CardTitle>
@@ -58,7 +58,7 @@ export function LeaveCard() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-              <DialogTitle className="font-headline">
+              <DialogTitle className="font-bold">
                 New Leave Request
               </DialogTitle>
               <DialogDescription>

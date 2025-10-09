@@ -1,24 +1,17 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import * as Icons from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 type StatCardProps = {
   title: string;
   value: number | string;
-  icon: keyof typeof Icons;
+  icon: LucideIcon;
   color?: string;
 };
 
-export function StatCard({ title, value, icon, color }: StatCardProps) {
-  const Icon = Icons[icon] as Icons.LucideIcon;
-
+export function StatCard({ title, value, icon: Icon, color }: StatCardProps) {
   return (
     <Card className="transform transition-transform duration-300 hover:scale-[1.05] hover:shadow-lg">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

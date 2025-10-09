@@ -15,9 +15,9 @@ export function MyPayrollCard() {
 
   if (!userPayroll) {
     return (
-      <Card className="w-full transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
+      <Card className="w-full">
         <CardHeader>
-          <CardTitle className="font-headline flex items-center gap-2">
+          <CardTitle className="font-bold flex items-center gap-2">
             <Wallet className="w-6 h-6" />
             My Payroll
           </CardTitle>
@@ -31,9 +31,9 @@ export function MyPayrollCard() {
   }
 
   return (
-     <Card className="w-full transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
+     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="font-headline flex items-center gap-2">
+        <CardTitle className="font-bold flex items-center gap-2">
           <Wallet className="w-6 h-6" />
           My Payroll
         </CardTitle>

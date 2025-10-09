@@ -69,7 +69,7 @@ export function LeaveRequestsTab() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-headline">Pending Leave Requests</CardTitle>
+        <CardTitle className="font-bold">Pending Leave Requests</CardTitle>
         <CardDescription>
           Approve or reject leave requests. Use the ✨ icon for an AI-powered summary.
         </CardDescription>
@@ -122,7 +122,7 @@ export function LeaveRequestsTab() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-green-600 hover:text-green-700 hover:bg-green-100 rounded-full"
+                        className="text-green-500 hover:text-green-600 hover:bg-green-500/10 rounded-full"
                         onClick={() => handleAction(request.id, 'Approved')}
                       >
                         <Check className="h-5 w-5" />
@@ -130,7 +130,7 @@ export function LeaveRequestsTab() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-red-600 hover:text-red-700 hover:bg-red-100 rounded-full"
+                        className="text-red-500 hover:text-red-600 hover:bg-red-500/10 rounded-full"
                         onClick={() => handleAction(request.id, 'Rejected')}
                       >
                         <X className="h-5 w-5" />
