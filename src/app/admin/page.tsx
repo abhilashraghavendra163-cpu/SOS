@@ -1,3 +1,7 @@
+"use client"
+
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarDays, CalendarCheck, Users, Wallet, BarChart3, FileArchive, Building } from "lucide-react";
 import { AttendanceTab } from "../components/admin/AttendanceTab";
@@ -8,9 +12,12 @@ import { AnalyticsTab } from "../components/admin/AnalyticsTab";
 import { DocumentsTab } from "../components/admin/DocumentsTab";
 import { OfficesTab } from "../components/admin/OfficesTab";
 
-export default function AdminDashboardPage() {
+function AdminDashboard() {
+  const searchParams = useSearchParams();
+  const tab = searchParams.get('tab') || 'attendance';
+
   return (
-    <Tabs defaultValue="attendance" className="w-full">
+    <Tabs defaultValue={tab} value={tab} className="w-full">
         <TabsList className="grid w-full h-auto grid-cols-2 sm:grid-cols-4 lg:grid-cols-7">
             <TabsTrigger value="attendance">
                 <CalendarDays className="mr-2 h-4 w-4" />
@@ -66,4 +73,12 @@ export default function AdminDashboardPage() {
         </div>
     </Tabs>
   );
+}
+
+export default function AdminDashboardPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <AdminDashboard />
+        </Suspense>
+    )
 }

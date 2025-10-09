@@ -13,17 +13,19 @@ import {
   SidebarFooter,
   SidebarInset,
 } from "@/components/ui/sidebar";
-import { LogOut, LayoutDashboard } from "lucide-react";
+import { LogOut, LayoutDashboard, CalendarDays, CalendarCheck, Users, Building, FileArchive, Wallet, BarChart3 } from "lucide-react";
 import { AppIcon } from "../components/AppIcon";
 import { DashboardHeader } from "../components/DashboardHeader";
 import { adminUser } from "@/lib/data";
 
 const menuItems = [
-  {
-    href: "/admin",
-    label: "Dashboard",
-    icon: LayoutDashboard,
-  },
+  { href: "/admin?tab=attendance", label: "Attendance", icon: CalendarDays },
+  { href: "/admin?tab=leaves", label: "Leave Requests", icon: CalendarCheck },
+  { href: "/admin?tab=users", label: "User Management", icon: Users },
+  { href: "/admin?tab=offices", label: "Offices", icon: Building },
+  { href: "/admin?tab=documents", label: "Documents", icon: FileArchive },
+  { href: "/admin?tab=payroll", label: "Payroll", icon: Wallet },
+  { href: "/admin?tab=analytics", label: "Analytics", icon: BarChart3 },
 ];
 
 export default function AdminDashboardLayout({
@@ -46,11 +48,22 @@ export default function AdminDashboardLayout({
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
+             <SidebarMenuItem>
+                <Link href="/admin">
+                  <SidebarMenuButton
+                    data-active={pathname === '/admin' && !menuItems.some(item => window.location.search.includes(item.href.split('?tab=')[1]))}
+                    tooltip="Dashboard"
+                  >
+                    <LayoutDashboard />
+                    <span>Dashboard</span>
+                  </SidebarMenuButton>
+                </Link>
+              </SidebarMenuItem>
             {menuItems.map((item) => (
               <SidebarMenuItem key={item.href}>
                 <Link href={item.href}>
                   <SidebarMenuButton
-                    data-active={pathname.startsWith(item.href)}
+                    data-active={typeof window !== 'undefined' && window.location.search.includes(item.href.split('?tab=')[1])}
                     tooltip={item.label}
                   >
                     <item.icon />
