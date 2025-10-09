@@ -151,7 +151,7 @@ export function UserManagementTab() {
                             </div>
                              <div className="grid gap-2">
                               <Label htmlFor="hourly-rate-edit">Hourly Rate ($)</Label>
-                              <Input id="hourly-rate-edit" type="number" defaultValue={user.hourlyRate} />
+                              <Input id="hourly-rate-edit" type="number" defaultValue={user.hourlyRate?.toString()} />
                             </div>
                           </div>
                           <DialogFooter>
