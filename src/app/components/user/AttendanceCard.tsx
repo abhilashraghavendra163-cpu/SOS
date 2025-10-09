@@ -39,13 +39,25 @@ export function AttendanceCard() {
   };
 
   const handlePunch = () => {
-    const newPunchedInState = !isPunchedIn;
-    setIsPunchedIn(newPunchedInState);
-    toast({
-      title: `Successfully Punched ${newPunchedInState ? "In" : "Out"}!`,
-      description: `Your attendance has been recorded at ${new Date().toLocaleTimeString()}.`,
-      variant: "default",
-    });
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const newPunchedInState = !isPunchedIn;
+        setIsPunchedIn(newPunchedInState);
+        toast({
+          title: `Successfully Punched ${newPunchedInState ? "In" : "Out"}!`,
+          description: `Your attendance has been recorded at ${new Date().toLocaleTimeString()}. Location: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`,
+          variant: "default",
+        });
+      },
+      (error) => {
+        toast({
+          variant: "destructive",
+          title: "Location Error",
+          description: "Could not get location. Please enable location services.",
+        });
+      }
+    );
   };
 
   return (
