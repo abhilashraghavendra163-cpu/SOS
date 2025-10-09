@@ -64,9 +64,11 @@ export function AttendanceCard() {
       }
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        setHasCameraPermission(true);
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
+          videoRef.current.onloadedmetadata = () => {
+             setHasCameraPermission(true);
+          };
         }
       } catch (error) {
         console.error("Error accessing camera:", error);
