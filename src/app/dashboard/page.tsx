@@ -11,38 +11,54 @@ export default function UserDashboardPage() {
   const userAttendance = attendanceRecords.filter(
     (record) => record.userId === currentUser.id
   );
-  const presentDays = userAttendance.filter(
+  const presentAndLate = userAttendance.filter(
     (r) => r.status === "Present" || r.status === "Late"
+  );
+  const presentDays = presentAndLate.length;
+  
+  const onTimeDays = userAttendance.filter(
+    (r) => r.status === "Present"
   ).length;
+
+  const onTimePercentage = presentDays > 0 ? Math.round((onTimeDays / presentDays) * 100) : 0;
+  
   const leaveDays = userAttendance.filter(
     (r) => r.status === "On Leave"
   ).length;
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <div className="lg:col-span-2">
-        <MyAttendance />
-      </div>
-      <div className="lg:col-span-1 flex flex-col gap-6">
-        <AttendanceCard />
-        <MyPayrollCard />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div className="flex flex-col gap-6">
+       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <StatCard
-            title="Present Days"
+            title="Total Present Days"
             value={presentDays}
-            icon="Check"
+            icon="CheckCircle"
             color="text-green-500"
           />
           <StatCard
-            title="Leaves Taken"
+            title="On-Time Percentage"
+            value={`${onTimePercentage}%`}
+            icon="Clock"
+            color="text-blue-500"
+          />
+          <StatCard
+            title="Total Leaves Taken"
             value={leaveDays}
-            icon="X"
+            icon="XCircle"
             color="text-red-500"
           />
         </div>
-        <LeaveCard />
-        <MyLeaveRequests />
-        <LocationCard />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <MyAttendance />
+        </div>
+        <div className="lg:col-span-1 flex flex-col gap-6">
+          <AttendanceCard />
+          <MyPayrollCard />
+          <LeaveCard />
+          <MyLeaveRequests />
+          <LocationCard />
+        </div>
       </div>
     </div>
   );
