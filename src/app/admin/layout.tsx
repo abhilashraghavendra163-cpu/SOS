@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   SidebarProvider,
   Sidebar,
@@ -19,13 +19,13 @@ import { DashboardHeader } from "../components/DashboardHeader";
 import { adminUser } from "@/lib/data";
 
 const menuItems = [
-  { href: "/admin?tab=attendance", label: "Attendance", icon: CalendarDays },
-  { href: "/admin?tab=leaves", label: "Leave Requests", icon: CalendarCheck },
-  { href: "/admin?tab=users", label: "User Management", icon: Users },
-  { href: "/admin?tab=offices", label: "Offices", icon: Building },
-  { href: "/admin?tab=documents", label: "Documents", icon: FileArchive },
-  { href: "/admin?tab=payroll", label: "Payroll", icon: Wallet },
-  { href: "/admin?tab=analytics", label: "Analytics", icon: BarChart3 },
+  { href: "/admin", tab: "attendance", label: "Attendance", icon: CalendarDays },
+  { href: "/admin", tab: "leaves", label: "Leave Requests", icon: CalendarCheck },
+  { href: "/admin", tab: "users", label: "User Management", icon: Users },
+  { href: "/admin", tab: "offices", label: "Offices", icon: Building },
+  { href: "/admin", tab: "documents", label: "Documents", icon: FileArchive },
+  { href: "/admin", tab: "payroll", label: "Payroll", icon: Wallet },
+  { href: "/admin", tab: "analytics", label: "Analytics", icon: BarChart3 },
 ];
 
 export default function AdminDashboardLayout({
@@ -34,6 +34,8 @@ export default function AdminDashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get('tab');
 
   return (
     <SidebarProvider>
@@ -51,7 +53,7 @@ export default function AdminDashboardLayout({
              <SidebarMenuItem>
                 <Link href="/admin">
                   <SidebarMenuButton
-                    data-active={pathname === '/admin' && !menuItems.some(item => window.location.search.includes(item.href.split('?tab=')[1]))}
+                    data-active={pathname === '/admin' && !currentTab}
                     tooltip="Dashboard"
                   >
                     <LayoutDashboard />
@@ -60,10 +62,10 @@ export default function AdminDashboardLayout({
                 </Link>
               </SidebarMenuItem>
             {menuItems.map((item) => (
-              <SidebarMenuItem key={item.href}>
-                <Link href={item.href}>
+              <SidebarMenuItem key={item.tab}>
+                <Link href={`${item.href}?tab=${item.tab}`}>
                   <SidebarMenuButton
-                    data-active={typeof window !== 'undefined' && window.location.search.includes(item.href.split('?tab=')[1])}
+                    data-active={currentTab === item.tab}
                     tooltip={item.label}
                   >
                     <item.icon />
