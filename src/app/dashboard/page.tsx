@@ -4,6 +4,7 @@ import { LeaveCard } from "../components/user/LeaveCard";
 import { LocationCard } from "../components/user/LocationCard";
 import { StatCard } from "../components/user/StatCard";
 import { MyPayrollCard } from "../components/user/MyPayrollCard";
+import { MyLeaveRequests } from "../components/user/MyLeaveRequests";
 import { attendanceRecords, currentUser } from "@/lib/data";
 
 export default function UserDashboardPage() {
@@ -37,6 +38,7 @@ export default function UserDashboardPage() {
           />
         </div>
         <LeaveCard />
+        <MyLeaveRequests />
         <LocationCard />
       </div>
       <div className="lg:col-span-2">
