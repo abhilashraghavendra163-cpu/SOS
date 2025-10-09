@@ -167,8 +167,10 @@ export function AttendanceTab() {
                 <TableHead>Date</TableHead>
                 <TableHead>Punch In</TableHead>
                 <TableHead>In Photo</TableHead>
+                <TableHead>In Location</TableHead>
                 <TableHead>Punch Out</TableHead>
                 <TableHead>Out Photo</TableHead>
+                <TableHead>Out Location</TableHead>
                 <TableHead>Hours</TableHead>
                 <TableHead className="text-right">Status</TableHead>
               </TableRow>
@@ -184,10 +186,26 @@ export function AttendanceTab() {
                       <PhotoThumbnail src={record.punchInPhoto} alt={`Punch-in photo for ${record.userName} on ${record.date}`} />
                     ) : '-'}
                   </TableCell>
+                  <TableCell>
+                    {record.punchInLocation ? (
+                      <Link href={`https://www.google.com/maps/search/?api=1&query=${record.punchInLocation}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:underline">
+                        <MapPin className="h-4 w-4" />
+                        View
+                      </Link>
+                    ) : '-'}
+                  </TableCell>
                   <TableCell>{record.punchOut ?? "-"}</TableCell>
                     <TableCell>
                     {record.punchOutPhoto ? (
                        <PhotoThumbnail src={record.punchOutPhoto} alt={`Punch-out photo for ${record.userName} on ${record.date}`} />
+                    ) : '-'}
+                  </TableCell>
+                  <TableCell>
+                    {record.punchOutLocation ? (
+                      <Link href={`https://www.google.com/maps/search/?api=1&query=${record.punchOutLocation}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:underline">
+                        <MapPin className="h-4 w-4" />
+                        View
+                      </Link>
                     ) : '-'}
                   </TableCell>
                   <TableCell>{record.hours}</TableCell>
