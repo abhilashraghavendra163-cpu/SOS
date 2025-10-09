@@ -1,11 +1,30 @@
-import type { User, AttendanceRecord, LeaveRequest, Payroll, Notification, UserDocument } from './types';
+import type { User, AttendanceRecord, LeaveRequest, Payroll, Notification, UserDocument, Office } from './types';
+
+export const offices: Office[] = Array.from({ length: 24 }, (_, i) => ({
+  id: `office${i + 1}`,
+  name: `Office Branch ${i + 1}`,
+  // Placeholder coordinates - spread around a central point for variety
+  latitude: 34.0522 + (Math.random() - 0.5) * 0.1 * (i + 1),
+  longitude: -118.2437 + (Math.random() - 0.5) * 0.1 * (i + 1),
+}));
+
 
 export const users: User[] = [
-  { id: '1', name: 'Alex Johnson', email: 'alex.j@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user1/100/100', hourlyRate: 25 },
-  { id: '2', name: 'Maria Garcia', email: 'maria.g@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user2/100/100', hourlyRate: 22 },
-  { id: '3', name: 'James Smith', email: 'james.s@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user3/100/100', hourlyRate: 30 },
+  { id: '1', name: 'Alex Johnson', email: 'alex.j@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user1/100/100', hourlyRate: 25, officeId: 'office1' },
+  { id: '2', name: 'Maria Garcia', email: 'maria.g@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user2/100/100', hourlyRate: 22, officeId: 'office2' },
+  { id: '3', name: 'James Smith', email: 'james.s@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user3/100/100', hourlyRate: 30, officeId: 'office3' },
   { id: '4', name: 'Priya Patel', email: 'priya.p@example.com', role: 'Admin', avatarUrl: 'https://picsum.photos/seed/admin1/100/100', hourlyRate: 50 },
-  { id: '5', name: 'Chen Wei', email: 'chen.w@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user4/100/100', hourlyRate: 28 },
+  { id: '5', name: 'Chen Wei', email: 'chen.w@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user4/100/100', hourlyRate: 28, officeId: 'office4' },
+  // Add more users and assign them to offices
+  ...Array.from({ length: 19 }, (_, i) => ({
+    id: `${i + 6}`,
+    name: `User ${i + 6}`,
+    email: `user${i + 6}@example.com`,
+    role: 'User' as const,
+    avatarUrl: `https://picsum.photos/seed/user${i + 6}/100/100`,
+    hourlyRate: 20 + i,
+    officeId: `office${i + 5}`
+  }))
 ];
 
 export const currentUser: User = users[0];

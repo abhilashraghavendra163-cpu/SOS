@@ -11,9 +11,35 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Clock, TimerOff, Camera, CheckCircle, MapPin } from "lucide-react";
+import { Clock, TimerOff, Camera, CheckCircle, MapPin, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { currentUser, offices } from "@/lib/data";
+
+const PUNCH_IN_RADIUS_METERS = 200; // 200 meters
+
+// Haversine formula to calculate distance between two lat/lon points
+const getDistance = (
+  lat1: number,
+  lon1: number,
+  lat2: number,
+  lon2: number
+) => {
+  const R = 6371e3; // metres
+  const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians
+  const φ2 = (lat2 * Math.PI) / 180;
+  const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+  const Δλ = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  const d = R * c; // in metres
+  return d;
+};
+
 
 export function AttendanceCard() {
   const [isPunchedIn, setIsPunchedIn] = useState(false);
@@ -100,6 +126,21 @@ export function AttendanceCard() {
   };
 
   const handlePunch = () => {
+    if (isPunchedIn) {
+        // Punching out doesn't require geo-lock
+        const photoDataUrl = capturePhoto();
+        if (photoDataUrl) setLastPunchPhoto(photoDataUrl);
+        setIsPunchedIn(false);
+        setPunchInLocation(null);
+        toast({
+            title: "Successfully Punched Out!",
+            description: `Your attendance has been recorded at ${new Date().toLocaleTimeString()}.`,
+        });
+        setTimeout(() => setLastPunchPhoto(null), 5000);
+        return;
+    }
+
+
     if (!hasCameraPermission) {
       toast({
         variant: "destructive",
@@ -109,41 +150,63 @@ export function AttendanceCard() {
       return;
     }
 
-    const photoDataUrl = capturePhoto();
-    if (!photoDataUrl) {
-      toast({
-        variant: "destructive",
-        title: "Photo Capture Failed",
-        description: "Could not capture photo. Please try again.",
-      });
-      return;
+    const assignedOffice = offices.find(o => o.id === currentUser.officeId);
+
+    if (!assignedOffice) {
+        toast({
+            variant: "destructive",
+            title: "No Assigned Office",
+            description: "You are not assigned to an office. Please contact your administrator.",
+        });
+        return;
     }
-    setLastPunchPhoto(photoDataUrl);
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
+        const { latitude, longitude } = position.coords;
+        const distance = getDistance(
+          latitude,
+          longitude,
+          assignedOffice.latitude,
+          assignedOffice.longitude
+        );
+
+        if (distance > PUNCH_IN_RADIUS_METERS) {
+          toast({
+            variant: "destructive",
+            title: "Out of Range",
+            description: `You must be within ${PUNCH_IN_RADIUS_METERS} meters of your office to punch in. You are ${Math.round(distance)}m away.`,
+          });
+          return;
+        }
+
+        const photoDataUrl = capturePhoto();
+        if (!photoDataUrl) {
+          toast({
+            variant: "destructive",
+            title: "Photo Capture Failed",
+            description: "Could not capture photo. Please try again.",
+          });
+          return;
+        }
+        setLastPunchPhoto(photoDataUrl);
+        
         const newPunchedInState = !isPunchedIn;
         setIsPunchedIn(newPunchedInState);
         if (newPunchedInState) {
           setPunchInLocation(`${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`);
-        } else {
-          setPunchInLocation(null);
         }
         
         toast({
-          title: `Successfully Punched ${newPunchedInState ? "In" : "Out"}!`,
+          title: `Successfully Punched In!`,
           description: `Your attendance has been recorded at ${new Date().toLocaleTimeString()}.`,
         });
-        if (!newPunchedInState) {
-          // When punching out, we can clear the photo after a delay
-          setTimeout(() => setLastPunchPhoto(null), 5000);
-        }
       },
       (error) => {
         toast({
           variant: "destructive",
           title: "Location Error",
-          description: "Could not get location. Please enable location services.",
+          description: "Could not get location. Please enable location services and try again.",
         });
       }
     );
