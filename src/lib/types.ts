@@ -39,3 +39,12 @@ export type Payroll = {
   hourlyRate: number;
   totalPay: number;
 };
+
+export type Notification = {
+    id: string;
+    userId: string;
+    title: string;
+    description: string;
+    timestamp: string;
+    read: boolean;
+};

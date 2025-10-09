@@ -14,6 +14,9 @@ import { Button } from "@/components/ui/button"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import type { User } from "@/lib/types"
 import { LogOut, Settings, User as UserIcon } from "lucide-react"
+import { NotificationBell } from "./NotificationBell"
+import { notifications } from "@/lib/data"
+
 
 type DashboardHeaderProps = {
   user: User;
@@ -22,11 +25,13 @@ type DashboardHeaderProps = {
 
 export function DashboardHeader({ user, title }: DashboardHeaderProps) {
   const userInitials = user.name.split(' ').map(n => n[0]).join('');
+  const userNotifications = notifications.filter(n => n.userId === user.id);
 
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
       <SidebarTrigger className="md:hidden" />
       <h1 className="flex-1 text-xl font-semibold tracking-tight font-headline">{title}</h1>
+      <NotificationBell notifications={userNotifications} />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-10 w-10 rounded-full">
