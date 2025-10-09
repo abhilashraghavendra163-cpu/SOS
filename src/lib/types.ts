@@ -15,6 +15,8 @@ export type AttendanceRecord = {
   punchOut: string | null;
   hours: string;
   status: 'Present' | 'On Leave' | 'Late' | 'In Progress';
+  punchInLocation?: string | null;
+  punchOutLocation?: string | null;
 };
 
 export type LeaveRequest = {

@@ -13,12 +13,12 @@ export const adminUser: User = users[3];
 
 
 export const attendanceRecords: AttendanceRecord[] = [
-  { id: 'a1', userId: '1', userName: 'Alex Johnson', date: '2024-07-28', punchIn: '09:05', punchOut: '17:30', hours: '8h 25m', status: 'Present' },
-  { id: 'a2', userId: '1', userName: 'Alex Johnson', date: '2024-07-27', punchIn: '09:00', punchOut: '17:00', hours: '8h 0m', status: 'Present' },
+  { id: 'a1', userId: '1', userName: 'Alex Johnson', date: '2024-07-28', punchIn: '09:05', punchOut: '17:30', hours: '8h 25m', status: 'Present', punchInLocation: '34.0522,-118.2437', punchOutLocation: '34.0522,-118.2437' },
+  { id: 'a2', userId: '1', userName: 'Alex Johnson', date: '2024-07-27', punchIn: '09:00', punchOut: '17:00', hours: '8h 0m', status: 'Present', punchInLocation: '34.0522,-118.2437', punchOutLocation: '34.0522,-118.2437' },
   { id: 'a3', userId: '1', userName: 'Alex Johnson', date: '2024-07-26', punchIn: 'N/A', punchOut: 'N/A', hours: '0h 0m', status: 'On Leave' },
-  { id: 'a4', userId: '2', userName: 'Maria Garcia', date: '2024-07-28', punchIn: '08:45', punchOut: '17:15', hours: '8h 30m', status: 'Present' },
-  { id: 'a5', userId: '3', userName: 'James Smith', date: '2024-07-28', punchIn: '09:15', punchOut: '17:00', hours: '7h 45m', status: 'Late' },
-  { id: 'a6', userId: '5', userName: 'Chen Wei', date: '2024-07-28', punchIn: '09:00', punchOut: null, hours: '-', status: 'In Progress' },
+  { id: 'a4', userId: '2', userName: 'Maria Garcia', date: '2024-07-28', punchIn: '08:45', punchOut: '17:15', hours: '8h 30m', status: 'Present', punchInLocation: '40.7128,-74.0060', punchOutLocation: '40.7128,-74.0060' },
+  { id: 'a5', userId: '3', userName: 'James Smith', date: '2024-07-28', punchIn: '09:15', punchOut: '17:00', hours: '7h 45m', status: 'Late', punchInLocation: '51.5074,-0.1278', punchOutLocation: '51.5074,-0.1278' },
+  { id: 'a6', userId: '5', userName: 'Chen Wei', date: '2024-07-28', punchIn: '09:00', punchOut: null, hours: '-', status: 'In Progress', punchInLocation: '35.6895,139.6917' },
 ];
 
 export const leaveRequests: LeaveRequest[] = [
