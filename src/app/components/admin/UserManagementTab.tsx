@@ -110,7 +110,7 @@ export function UserManagementTab() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-headline">User Management</CardTitle>
+        <CardTitle className="font-bold">User Management</CardTitle>
         <CardDescription>Add, edit, or remove users, and send announcements.</CardDescription>
       </CardHeader>
       <CardContent>
@@ -125,7 +125,7 @@ export function UserManagementTab() {
             <DialogContent>
               <form onSubmit={handleSendAnnouncement}>
                 <DialogHeader>
-                  <DialogTitle className="font-headline">Send Announcement</DialogTitle>
+                  <DialogTitle className="font-bold">Send Announcement</DialogTitle>
                   <DialogDescription>
                     This message will be sent as a notification to all users.
                   </DialogDescription>
@@ -156,7 +156,7 @@ export function UserManagementTab() {
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle className="font-headline">Add New User</DialogTitle>
+                <DialogTitle className="font-bold">Add New User</DialogTitle>
                 <DialogDescription>
                   Fill in the details to create a new user account.
                 </DialogDescription>
@@ -212,7 +212,7 @@ export function UserManagementTab() {
                        </DialogTrigger>
                        <DialogContent>
                           <DialogHeader>
-                            <DialogTitle className="font-headline">Edit User</DialogTitle>
+                            <DialogTitle className="font-bold">Edit User</DialogTitle>
                           </DialogHeader>
                           <div className="grid gap-4 py-4">
                             <div className="grid gap-2">

@@ -39,7 +39,7 @@ export default function AdminDashboardLayout({
         <SidebarHeader>
           <div className="flex items-center gap-2 p-2">
             <AppIcon className="w-8 h-8" />
-            <span className="text-lg font-headline font-semibold text-sidebar-foreground">
+            <span className="text-lg font-bold text-sidebar-foreground">
               AttendEase
             </span>
           </div>

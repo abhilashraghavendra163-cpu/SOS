@@ -15,7 +15,6 @@ const TabsList = React.forwardRef<
     ref={ref}
     className={cn(
       "inline-flex h-auto rounded-md bg-muted p-1 text-muted-foreground",
-      "data-[orientation=vertical]:flex-col data-[orientation=vertical]:h-auto data-[orientation=vertical]:w-full",
       className
     )}
     {...props}
@@ -46,7 +45,6 @@ const TabsContent = React.forwardRef<
     ref={ref}
     className={cn(
       "mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-      "data-[orientation=vertical]:mt-0",
       className
     )}
     {...props}

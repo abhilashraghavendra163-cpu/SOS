@@ -60,10 +60,10 @@ export function AttendanceTab() {
 
   const getStatusClass = (status: string) => {
     switch (status) {
-      case "Present": return "bg-green-500/20 text-green-700 border-green-500/30 hover:bg-green-500/30";
-      case "Late": return "bg-yellow-500/20 text-yellow-700 border-yellow-500/30 hover:bg-yellow-500/30";
-      case "In Progress": return "bg-blue-500/20 text-blue-700 border-blue-500/30 hover:bg-blue-500/30";
-      case "On Leave": return "bg-gray-500/20 text-gray-700 border-gray-500/30 hover:bg-gray-500/30";
+      case "Present": return "bg-green-500/10 text-green-500 border-green-500/20";
+      case "Late": return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
+      case "In Progress": return "bg-blue-500/10 text-blue-500 border-blue-500/20 animate-pulse";
+      case "On Leave": return "bg-gray-500/10 text-gray-500 border-gray-500/20";
       default: return "bg-muted text-muted-foreground border-border";
     }
   };
@@ -71,7 +71,7 @@ export function AttendanceTab() {
   const PhotoThumbnail = ({ src, alt }: { src: string, alt: string }) => (
     <Dialog>
       <DialogTrigger asChild>
-        <button className="flex items-center gap-1 text-blue-600 hover:underline">
+        <button className="flex items-center gap-1 text-primary hover:underline">
           <Camera className="h-4 w-4" />
           View
         </button>
@@ -90,7 +90,7 @@ export function AttendanceTab() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-headline">All Attendance Records</CardTitle>
+        <CardTitle className="font-bold">All Attendance Records</CardTitle>
         <CardDescription>
           View, filter, and manage attendance for all users.
         </CardDescription>
@@ -187,13 +187,13 @@ export function AttendanceTab() {
                   </TableCell>
                   <TableCell>
                     {record.punchInLocation ? (
-                      <Link href={`https://www.google.com/maps/search/?api=1&query=${record.punchInLocation}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:underline">
+                      <Link href={`https://www.google.com/maps/search/?api=1&query=${record.punchInLocation}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-primary hover:underline">
                         <MapPin className="h-4 w-4" />
                         View
                       </Link>
                     ) : '-'}
                   </TableCell>
-                  <TableCell>{record.punchOut ?? "-"}</TableCell>
+                  <TableCell>{record.punchOut ?? "—"}</TableCell>
                     <TableCell>
                     {record.punchOutPhoto ? (
                        <PhotoThumbnail src={record.punchOutPhoto} alt={`Punch-out photo for ${record.userName} on ${record.date}`} />
@@ -201,7 +201,7 @@ export function AttendanceTab() {
                   </TableCell>
                   <TableCell>
                     {record.punchOutLocation ? (
-                      <Link href={`https://www.google.com/maps/search/?api=1&query=${record.punchOutLocation}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:underline">
+                      <Link href={`https://www.google.com/maps/search/?api=1&query=${record.punchOutLocation}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-primary hover:underline">
                         <MapPin className="h-4 w-4" />
                         View
                       </Link>
@@ -211,6 +211,7 @@ export function AttendanceTab() {
                   <TableCell className="text-right">
                      <Badge
                       className={cn("text-xs font-semibold whitespace-nowrap", getStatusClass(record.status))}
+                      variant="outline"
                     >
                       {record.status}
                     </Badge>

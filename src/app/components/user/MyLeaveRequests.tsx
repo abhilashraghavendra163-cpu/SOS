@@ -29,20 +29,20 @@ export function MyLeaveRequests() {
   const getStatusClass = (status: string) => {
      switch (status) {
       case "Approved":
-        return "bg-green-500/20 text-green-700 border-green-500/30 hover:bg-green-500/30";
+        return "bg-green-500/10 text-green-500 border-green-500/20";
       case "Pending":
-        return "bg-yellow-500/20 text-yellow-700 border-yellow-500/30 hover:bg-yellow-500/30";
+        return "bg-yellow-500/10 text-yellow-500 border-yellow-500/20";
       case "Rejected":
-        return "bg-red-500/20 text-red-700 border-red-500/30 hover:bg-red-500/30";
+        return "bg-red-500/10 text-red-500 border-red-500/20";
       default:
-        return "bg-gray-500/20 text-gray-700 border-gray-500/30 hover:bg-gray-500/30";
+        return "bg-gray-500/10 text-gray-500 border-gray-500/20";
     }
   }
 
   return (
-    <Card className="h-full transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
+    <Card className="h-full">
       <CardHeader>
-        <CardTitle className="font-headline flex items-center gap-2">
+        <CardTitle className="font-bold flex items-center gap-2">
           <CalendarCheck2 className="w-6 h-6" />
           My Leave Requests
         </CardTitle>
@@ -69,6 +69,7 @@ export function MyLeaveRequests() {
                     <TableCell className="text-right">
                       <Badge
                         className={cn("text-xs font-semibold", getStatusClass(request.status))}
+                        variant="outline"
                       >
                         {request.status}
                       </Badge>

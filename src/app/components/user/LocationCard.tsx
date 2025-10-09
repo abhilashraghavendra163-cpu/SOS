@@ -52,9 +52,9 @@ export function LocationCard() {
   }, [toast]);
 
   return (
-    <Card className="w-full transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
+    <Card className="w-full">
       <CardHeader>
-        <CardTitle className="font-headline flex items-center gap-2">
+        <CardTitle className="font-bold flex items-center gap-2">
           <MapPin className="w-6 h-6" />
           My Location
         </CardTitle>
@@ -72,7 +72,7 @@ export function LocationCard() {
               loading="lazy"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
-              src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=${location.latitude},${location.longitude}&zoom=15`}
+              src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=${location.latitude},${location.longitude}&zoom=15&maptype=satellite`}
             ></iframe>
           </div>
         ) : (
