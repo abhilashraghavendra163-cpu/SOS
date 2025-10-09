@@ -121,7 +121,7 @@ export function AttendanceTab() {
                 id="date"
                 variant={"outline"}
                 className={cn(
-                  "w-full sm:w-[300px] justify-start text-left font-normal",
+                  "w-full sm:w-auto md:w-[240px] justify-start text-left font-normal",
                   !date && "text-muted-foreground"
                 )}
               >
@@ -159,7 +159,7 @@ export function AttendanceTab() {
             Generate Report
           </Button>
         </div>
-        <ScrollArea className="h-[480px]">
+        <div className="relative w-full overflow-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -178,8 +178,8 @@ export function AttendanceTab() {
             <TableBody>
               {attendanceRecords.map((record) => (
                 <TableRow key={record.id}>
-                  <TableCell className="font-medium">{record.userName}</TableCell>
-                  <TableCell>{record.date}</TableCell>
+                  <TableCell className="font-medium whitespace-nowrap">{record.userName}</TableCell>
+                  <TableCell className="whitespace-nowrap">{record.date}</TableCell>
                   <TableCell>{record.punchIn}</TableCell>
                   <TableCell>
                     {record.punchInPhoto ? (
@@ -212,7 +212,7 @@ export function AttendanceTab() {
                   <TableCell className="text-right">
                      <Badge
                       variant={getStatusVariant(record.status)}
-                      className={cn("text-xs", {
+                      className={cn("text-xs whitespace-nowrap", {
                           "bg-green-500/20 text-green-700 border-green-500/30 hover:bg-green-500/30": record.status === 'Present',
                           "bg-yellow-500/20 text-yellow-700 border-yellow-500/30 hover:bg-yellow-500/30": record.status === 'Late',
                           "bg-blue-500/20 text-blue-700 border-blue-500/30 hover:bg-blue-500/30": record.status === 'In Progress',
@@ -226,7 +226,7 @@ export function AttendanceTab() {
               ))}
             </TableBody>
           </Table>
-        </ScrollArea>
+        </div>
       </CardContent>
     </Card>
   );
