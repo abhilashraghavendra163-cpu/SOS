@@ -50,21 +50,19 @@ export default function UserDashboardPage() {
           color="text-red-500"
         />
       </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div className="lg:col-span-3 xl:col-span-2">
-          <MyAttendance />
-        </div>
-        <div className="lg:col-span-3 xl:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6 auto-rows-min">
-          <AttendanceCard />
-          <div className="flex flex-col gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+        <AttendanceCard />
+        <div className="flex flex-col gap-6">
             <LeaveCard />
             <MyLeaveRequests />
-          </div>
-          <MyPayrollCard />
-          <PayslipsCard />
-          <MyDocumentsCard />
-          <LocationCard />
         </div>
+        <MyPayrollCard />
+        <PayslipsCard />
+        <MyDocumentsCard />
+        <LocationCard />
+      </div>
+      <div>
+        <MyAttendance />
       </div>
     </div>
   );
