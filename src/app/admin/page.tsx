@@ -1,14 +1,15 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CalendarDays, CalendarCheck, Users, Wallet } from "lucide-react";
+import { CalendarDays, CalendarCheck, Users, Wallet, BarChart3 } from "lucide-react";
 import { AttendanceTab } from "../components/admin/AttendanceTab";
 import { LeaveRequestsTab } from "../components/admin/LeaveRequestsTab";
 import { UserManagementTab } from "../components/admin/UserManagementTab";
 import { PayrollTab } from "../components/admin/PayrollTab";
+import { AnalyticsTab } from "../components/admin/AnalyticsTab";
 
 export default function AdminDashboardPage() {
   return (
     <Tabs defaultValue="attendance" className="w-full">
-      <TabsList className="grid w-full grid-cols-4">
+      <TabsList className="grid w-full grid-cols-5">
         <TabsTrigger value="attendance">
           <CalendarDays className="mr-2 h-4 w-4" />
           Attendance
@@ -25,6 +26,10 @@ export default function AdminDashboardPage() {
           <Wallet className="mr-2 h-4 w-4" />
           Payroll
         </TabsTrigger>
+        <TabsTrigger value="analytics">
+          <BarChart3 className="mr-2 h-4 w-4" />
+          Analytics
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="attendance">
         <AttendanceTab />
@@ -37,6 +42,9 @@ export default function AdminDashboardPage() {
       </TabsContent>
       <TabsContent value="payroll">
         <PayrollTab />
+      </TabsContent>
+       <TabsContent value="analytics">
+        <AnalyticsTab />
       </TabsContent>
     </Tabs>
   );
