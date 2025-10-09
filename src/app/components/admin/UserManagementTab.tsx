@@ -96,6 +96,10 @@ export function UserManagementTab() {
                   <Label htmlFor="email">Email</Label>
                   <Input id="email" type="email" placeholder="e.g. john@example.com" />
                 </div>
+                 <div className="grid gap-2">
+                  <Label htmlFor="hourly-rate">Hourly Rate ($)</Label>
+                  <Input id="hourly-rate" type="number" placeholder="e.g. 25" />
+                </div>
               </div>
               <DialogFooter>
                 <Button onClick={handleAddUser}>Create User</Button>
@@ -109,6 +113,7 @@ export function UserManagementTab() {
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead>Hourly Rate</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
@@ -118,6 +123,7 @@ export function UserManagementTab() {
                 <TableRow key={user.id}>
                   <TableCell className="font-medium">{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
+                   <TableCell>${user.hourlyRate?.toFixed(2) ?? 'N/A'}</TableCell>
                   <TableCell>
                     <Badge variant={user.role === "Admin" ? "default" : "secondary"}>
                       {user.role}
@@ -142,6 +148,10 @@ export function UserManagementTab() {
                             <div className="grid gap-2">
                               <Label htmlFor="email-edit">Email</Label>
                               <Input id="email-edit" type="email" defaultValue={user.email} />
+                            </div>
+                             <div className="grid gap-2">
+                              <Label htmlFor="hourly-rate-edit">Hourly Rate ($)</Label>
+                              <Input id="hourly-rate-edit" type="number" defaultValue={user.hourlyRate} />
                             </div>
                           </div>
                           <DialogFooter>

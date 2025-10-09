@@ -4,6 +4,7 @@ export type User = {
   email: string;
   role: 'Admin' | 'User';
   avatarUrl: string;
+  hourlyRate?: number;
 };
 
 export type AttendanceRecord = {
@@ -28,4 +29,13 @@ export type LeaveRequest = {
   date: string;
   reason: string;
   status: 'Pending' | 'Approved' | 'Rejected';
+};
+
+export type Payroll = {
+  id: string;
+  userId: string;
+  userName: string;
+  totalHours: number;
+  hourlyRate: number;
+  totalPay: number;
 };
