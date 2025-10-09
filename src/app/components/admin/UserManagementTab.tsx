@@ -16,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -182,7 +181,7 @@ export function UserManagementTab() {
             </DialogContent>
           </Dialog>
         </div>
-        <ScrollArea className="h-[500px]">
+        <div className="relative w-full overflow-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -195,7 +194,7 @@ export function UserManagementTab() {
             </TableHeader>
             <TableBody>
               {users.map((user) => (
-                <TableRow key={user.id}>
+                <TableRow key={user.id} className="transition-colors hover:bg-muted/50">
                   <TableCell className="font-medium">{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
                    <TableCell>${user.hourlyRate?.toFixed(2) ?? 'N/A'}</TableCell>
@@ -226,7 +225,7 @@ export function UserManagementTab() {
                             </div>
                              <div className="grid gap-2">
                               <Label htmlFor="hourly-rate-edit">Hourly Rate ($)</Label>
-                              <Input id="hourly-rate-edit" type="number" defaultValue={user.hourlyRate?.toString()} />
+                              <Input id="hourly-rate-edit" type="number" defaultValue={user.hourlyRate?.toString() ?? ''} />
                             </div>
                           </div>
                           <DialogFooter>
@@ -259,7 +258,7 @@ export function UserManagementTab() {
               ))}
             </TableBody>
           </Table>
-        </ScrollArea>
+        </div>
       </CardContent>
     </Card>
   );

@@ -21,24 +21,34 @@ export function LocationCard() {
   const { toast } = useToast();
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-        setLoading(false);
-      },
-      (error) => {
-        console.error("Geolocation error:", error);
-        toast({
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          setLoading(false);
+        },
+        (error) => {
+          console.error("Geolocation error:", error);
+          toast({
+            variant: "destructive",
+            title: "Location Error",
+            description: "Could not get your location. Please enable location services.",
+          });
+          setLoading(false);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    } else {
+       toast({
           variant: "destructive",
-          title: "Location Error",
-          description: "Could not get your location. Please enable location services.",
+          title: "Location Not Supported",
+          description: "Your browser does not support geolocation.",
         });
-        setLoading(false);
-      }
-    );
+      setLoading(false);
+    }
   }, [toast]);
 
   return (
@@ -48,7 +58,7 @@ export function LocationCard() {
           <MapPin className="w-6 h-6" />
           My Location
         </CardTitle>
-        <CardDescription>Your current location on the map.</CardDescription>
+        <CardDescription>Your current location for attendance.</CardDescription>
       </CardHeader>
       <CardContent>
         {loading ? (
@@ -61,6 +71,7 @@ export function LocationCard() {
               style={{ border: 0 }}
               loading="lazy"
               allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
               src={`https://www.google.com/maps/embed/v1/view?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&center=${location.latitude},${location.longitude}&zoom=15`}
             ></iframe>
           </div>
