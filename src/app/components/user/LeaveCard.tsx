@@ -73,6 +73,7 @@ export function LeaveCard() {
                   selected={date}
                   onSelect={setDate}
                   className="rounded-md border"
+                  disabled={(date) => date < new Date()}
                 />
               </div>
               <div className="grid gap-2">

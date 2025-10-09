@@ -25,19 +25,6 @@ export function MyLeaveRequests() {
   const userLeaveRequests = leaveRequests.filter(
     (request) => request.userId === currentUser.id
   );
-
-  const getStatusVariant = (status: string) => {
-    switch (status) {
-      case "Approved":
-        return "default";
-      case "Pending":
-        return "secondary";
-      case "Rejected":
-        return "destructive";
-      default:
-        return "outline";
-    }
-  };
   
   const getStatusClass = (status: string) => {
      switch (status) {
@@ -76,13 +63,12 @@ export function MyLeaveRequests() {
             <TableBody>
               {userLeaveRequests.length > 0 ? (
                 userLeaveRequests.map((request) => (
-                  <TableRow key={request.id}>
+                  <TableRow key={request.id} className="hover:bg-muted/50 transition-colors">
                     <TableCell className="font-medium">{request.date}</TableCell>
                     <TableCell className="max-w-[200px] truncate">{request.reason}</TableCell>
                     <TableCell className="text-right">
                       <Badge
-                        variant={getStatusVariant(request.status)}
-                        className={cn("text-xs", getStatusClass(request.status))}
+                        className={cn("text-xs font-semibold", getStatusClass(request.status))}
                       >
                         {request.status}
                       </Badge>

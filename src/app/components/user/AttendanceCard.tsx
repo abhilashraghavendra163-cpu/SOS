@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,13 +11,15 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Clock, TimerOff, Camera } from "lucide-react";
+import { Clock, TimerOff, Camera, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function AttendanceCard() {
   const [isPunchedIn, setIsPunchedIn] = useState(false);
   const [timer, setTimer] = useState(0);
-  const [hasCameraPermission, setHasCameraPermission] = useState(false);
+  const [lastPunchPhoto, setLastPunchPhoto] = useState<string | null>(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { toast } = useToast();
@@ -24,7 +27,7 @@ export function AttendanceCard() {
   useEffect(() => {
     const getCameraPermission = async () => {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-         toast({
+        toast({
           variant: "destructive",
           title: "Camera Not Supported",
           description: "Your browser does not support camera access.",
@@ -35,7 +38,6 @@ export function AttendanceCard() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         setHasCameraPermission(true);
-
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
@@ -45,20 +47,19 @@ export function AttendanceCard() {
         toast({
           variant: "destructive",
           title: "Camera Access Denied",
-          description: "Please enable camera permissions in your browser settings to use this feature.",
+          description: "Please enable camera permissions in your browser settings.",
         });
       }
     };
 
     getCameraPermission();
 
-    // Cleanup function to stop video stream
     return () => {
       if (videoRef.current && videoRef.current.srcObject) {
         const stream = videoRef.current.srcObject as MediaStream;
         stream.getTracks().forEach(track => track.stop());
       }
-    }
+    };
   }, [toast]);
 
   useEffect(() => {
@@ -68,12 +69,12 @@ export function AttendanceCard() {
         setTimer((prevTimer) => prevTimer + 1);
       }, 1000);
     } else {
-      setTimer(0);
+      if (timer > 0) setTimer(0);
     }
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPunchedIn]);
+  }, [isPunchedIn, timer]);
 
   const formatTime = (seconds: number) => {
     const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
@@ -99,38 +100,37 @@ export function AttendanceCard() {
 
   const handlePunch = () => {
     if (!hasCameraPermission) {
-       toast({
-          variant: "destructive",
-          title: "Camera Permission Required",
-          description: "Cannot punch in/out without camera access.",
-        });
+      toast({
+        variant: "destructive",
+        title: "Camera Permission Required",
+        description: "Cannot punch in/out without camera access.",
+      });
       return;
     }
 
     const photoDataUrl = capturePhoto();
     if (!photoDataUrl) {
-       toast({
-          variant: "destructive",
-          title: "Photo Capture Failed",
-          description: "Could not capture photo. Please try again.",
-        });
+      toast({
+        variant: "destructive",
+        title: "Photo Capture Failed",
+        description: "Could not capture photo. Please try again.",
+      });
       return;
     }
-    
-    // Here you would typically send the photoDataUrl to your backend
-    console.log("Captured photo:", photoDataUrl.substring(0, 30) + "...");
-
+    setLastPunchPhoto(photoDataUrl);
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const { latitude, longitude } = position.coords;
         const newPunchedInState = !isPunchedIn;
         setIsPunchedIn(newPunchedInState);
         toast({
           title: `Successfully Punched ${newPunchedInState ? "In" : "Out"}!`,
-          description: `Your attendance and photo have been recorded at ${new Date().toLocaleTimeString()}.`,
-          variant: "default",
+          description: `Your attendance has been recorded at ${new Date().toLocaleTimeString()}.`,
         });
+        if (!newPunchedInState) {
+          // When punching out, we can clear the photo after a delay
+          setTimeout(() => setLastPunchPhoto(null), 5000);
+        }
       },
       (error) => {
         toast({
@@ -149,48 +149,49 @@ export function AttendanceCard() {
           <Camera className="w-6 h-6" />
           Photo Punch
         </CardTitle>
-        <CardDescription>Punch in/out with a photo for verification.</CardDescription>
+        <CardDescription>Punch in or out with a photo for verification.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center gap-4">
         <div className="w-full aspect-video rounded-md overflow-hidden bg-muted border relative">
-           <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
-           <canvas ref={canvasRef} className="hidden" />
-           {!hasCameraPermission && (
-             <div className="absolute inset-0 flex items-center justify-center p-4">
-                <Alert variant="destructive">
-                  <AlertTitle>Camera Access Required</AlertTitle>
-                  <AlertDescription>
-                    Please allow camera access to use this feature.
-                  </AlertDescription>
-                </Alert>
-             </div>
-           )}
+          {hasCameraPermission === null && <Skeleton className="w-full h-full" />}
+          
+          <video ref={videoRef} className={`w-full h-full object-cover ${hasCameraPermission ? 'block' : 'hidden'}`} autoPlay muted playsInline />
+          <canvas ref={canvasRef} className="hidden" />
+
+          {hasCameraPermission === false && (
+            <div className="absolute inset-0 flex items-center justify-center p-4">
+              <Alert variant="destructive">
+                <AlertTitle>Camera Access Required</AlertTitle>
+                <AlertDescription>
+                  Please allow camera access in your browser settings to use this feature.
+                </AlertDescription>
+              </Alert>
+            </div>
+          )}
         </div>
-        <div
-          className={`text-6xl font-bold font-mono ${
-            isPunchedIn ? "text-primary" : "text-muted-foreground"
-          }`}
-        >
+        
+        {lastPunchPhoto && (
+            <div className="w-full flex flex-col items-center gap-2">
+                <p className="text-sm font-medium text-muted-foreground">Last Punch Photo:</p>
+                <Image src={lastPunchPhoto} alt="Last punch photo" width={120} height={90} className="rounded-md border-2 border-primary" data-ai-hint="person face" />
+            </div>
+        )}
+
+        <div className="text-6xl font-bold font-mono text-center tabular-nums text-foreground/80 tracking-wider">
           {formatTime(timer)}
         </div>
-        <div
-          className={`flex items-center gap-2 font-semibold ${
-            isPunchedIn ? "text-green-600" : "text-amber-600"
-          }`}
-        >
-          <div
-            className={`w-3 h-3 rounded-full ${
-              isPunchedIn ? "bg-green-500 animate-pulse" : "bg-amber-500"
-            }`}
-          />
+        
+        <div className={`flex items-center gap-2 font-semibold ${isPunchedIn ? "text-green-600" : "text-amber-600"}`}>
+          <div className={`w-3 h-3 rounded-full ${isPunchedIn ? "bg-green-500 animate-pulse" : "bg-amber-500"}`} />
           {isPunchedIn ? "You are punched in" : "You are punched out"}
         </div>
+
         <Button
           onClick={handlePunch}
           size="lg"
-          className="w-full font-bold text-lg mt-2"
+          className="w-full font-bold text-lg mt-2 transition-all duration-300"
           variant={isPunchedIn ? "destructive" : "default"}
-          disabled={!hasCameraPermission}
+          disabled={hasCameraPermission === null || hasCameraPermission === false}
         >
           {isPunchedIn ? (
             <>

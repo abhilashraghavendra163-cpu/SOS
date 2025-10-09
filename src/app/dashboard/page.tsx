@@ -28,26 +28,26 @@ export default function UserDashboardPage() {
 
   return (
     <div className="flex flex-col gap-6">
-       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <StatCard
-            title="Total Present Days"
-            value={presentDays}
-            icon="CheckCircle"
-            color="text-green-500"
-          />
-          <StatCard
-            title="On-Time Percentage"
-            value={`${onTimePercentage}%`}
-            icon="Clock"
-            color="text-blue-500"
-          />
-          <StatCard
-            title="Total Leaves Taken"
-            value={leaveDays}
-            icon="XCircle"
-            color="text-red-500"
-          />
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <StatCard
+          title="Total Present Days"
+          value={presentDays}
+          icon="CheckCircle"
+          color="text-green-500"
+        />
+        <StatCard
+          title="On-Time Percentage"
+          value={`${onTimePercentage}%`}
+          icon="Clock"
+          color="text-blue-500"
+        />
+        <StatCard
+          title="Total Leaves Taken"
+          value={leaveDays}
+          icon="XCircle"
+          color="text-red-500"
+        />
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
           <MyAttendance />

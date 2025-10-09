@@ -16,7 +16,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { leaveRequests as initialLeaveRequests } from "@/lib/data";
 import { Check, X, Sparkles, Loader } from "lucide-react";
@@ -65,7 +64,6 @@ export function LeaveRequestsTab() {
     }
   };
 
-
   const pendingRequests = leaveRequests.filter(req => req.status === 'Pending');
 
   return (
@@ -73,11 +71,11 @@ export function LeaveRequestsTab() {
       <CardHeader>
         <CardTitle className="font-headline">Pending Leave Requests</CardTitle>
         <CardDescription>
-          Approve or reject leave requests from users. Use the ✨ icon for an AI-powered summary.
+          Approve or reject leave requests. Use the ✨ icon for an AI-powered summary.
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[550px]">
+        <div className="relative w-full overflow-auto">
           <Table>
             <TableHeader>
               <TableRow>
@@ -90,26 +88,27 @@ export function LeaveRequestsTab() {
             <TableBody>
               {pendingRequests.length > 0 ? (
                 pendingRequests.map((request) => (
-                  <TableRow key={request.id}>
+                  <TableRow key={request.id} className="transition-colors hover:bg-muted/50">
                     <TableCell className="font-medium">
                       {request.userName}
                     </TableCell>
                     <TableCell>{request.date}</TableCell>
-                    <TableCell className="max-w-[300px] truncate flex items-center gap-2">
+                    <TableCell className="max-w-[300px] flex items-center gap-2">
                        <span className="truncate">{request.reason}</span>
                         <Popover>
                         <PopoverTrigger asChild>
                             <Button
-                            variant="ghost"
-                            size="icon"
-                            className="text-primary hover:bg-primary/10 h-6 w-6"
-                            onClick={() => handleSummarize(request.id, request.reason)}
-                            disabled={loadingSummary === request.id}
+                              variant="ghost"
+                              size="icon"
+                              className="text-primary hover:bg-primary/10 h-8 w-8 shrink-0"
+                              onClick={() => handleSummarize(request.id, request.reason)}
+                              disabled={loadingSummary === request.id}
+                              aria-label="Summarize Reason"
                             >
                             {loadingSummary === request.id ? (
-                                <Loader className="animate-spin" />
+                                <Loader className="animate-spin h-4 w-4" />
                             ) : (
-                                <Sparkles />
+                                <Sparkles className="h-4 w-4" />
                             )}
                             </Button>
                         </PopoverTrigger>
@@ -123,18 +122,18 @@ export function LeaveRequestsTab() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-green-600 hover:text-green-700 hover:bg-green-100"
+                        className="text-green-600 hover:text-green-700 hover:bg-green-100 rounded-full"
                         onClick={() => handleAction(request.id, 'Approved')}
                       >
-                        <Check className="h-4 w-4" />
+                        <Check className="h-5 w-5" />
                       </Button>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="text-red-600 hover:text-red-700 hover:bg-red-100"
+                        className="text-red-600 hover:text-red-700 hover:bg-red-100 rounded-full"
                         onClick={() => handleAction(request.id, 'Rejected')}
                       >
-                        <X className="h-4 w-4" />
+                        <X className="h-5 w-5" />
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -148,7 +147,7 @@ export function LeaveRequestsTab() {
               )}
             </TableBody>
           </Table>
-        </ScrollArea>
+        </div>
       </CardContent>
     </Card>
   );

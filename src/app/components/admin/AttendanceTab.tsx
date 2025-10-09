@@ -25,7 +25,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -59,13 +58,13 @@ export function AttendanceTab() {
     });
   };
 
-  const getStatusVariant = (status: string) => {
+  const getStatusClass = (status: string) => {
     switch (status) {
-      case "Present": return "default";
-      case "On Leave": return "secondary";
-      case "Late": return "destructive";
-      case "In Progress": return "outline";
-      default: return "default";
+      case "Present": return "bg-green-500/20 text-green-700 border-green-500/30 hover:bg-green-500/30";
+      case "Late": return "bg-yellow-500/20 text-yellow-700 border-yellow-500/30 hover:bg-yellow-500/30";
+      case "In Progress": return "bg-blue-500/20 text-blue-700 border-blue-500/30 hover:bg-blue-500/30";
+      case "On Leave": return "bg-gray-500/20 text-gray-700 border-gray-500/30 hover:bg-gray-500/30";
+      default: return "bg-muted text-muted-foreground border-border";
     }
   };
   
@@ -93,7 +92,7 @@ export function AttendanceTab() {
       <CardHeader>
         <CardTitle className="font-headline">All Attendance Records</CardTitle>
         <CardDescription>
-          View and filter attendance for all users.
+          View, filter, and manage attendance for all users.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -177,7 +176,7 @@ export function AttendanceTab() {
             </TableHeader>
             <TableBody>
               {attendanceRecords.map((record) => (
-                <TableRow key={record.id}>
+                <TableRow key={record.id} className="transition-colors hover:bg-muted/50">
                   <TableCell className="font-medium whitespace-nowrap">{record.userName}</TableCell>
                   <TableCell className="whitespace-nowrap">{record.date}</TableCell>
                   <TableCell>{record.punchIn}</TableCell>
@@ -211,13 +210,7 @@ export function AttendanceTab() {
                   <TableCell>{record.hours}</TableCell>
                   <TableCell className="text-right">
                      <Badge
-                      variant={getStatusVariant(record.status)}
-                      className={cn("text-xs whitespace-nowrap", {
-                          "bg-green-500/20 text-green-700 border-green-500/30 hover:bg-green-500/30": record.status === 'Present',
-                          "bg-yellow-500/20 text-yellow-700 border-yellow-500/30 hover:bg-yellow-500/30": record.status === 'Late',
-                          "bg-blue-500/20 text-blue-700 border-blue-500/30 hover:bg-blue-500/30": record.status === 'In Progress',
-                          "bg-gray-500/20 text-gray-700 border-gray-500/30 hover:bg-gray-500/30": record.status === 'On Leave'
-                      })}
+                      className={cn("text-xs font-semibold whitespace-nowrap", getStatusClass(record.status))}
                     >
                       {record.status}
                     </Badge>
