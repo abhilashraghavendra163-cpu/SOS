@@ -41,13 +41,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { users as initialUsers } from "@/lib/data";
-import { UserPlus, FilePen, Trash2 } from "lucide-react";
+import { users as initialUsers, notifications as initialNotifications } from "@/lib/data";
+import { UserPlus, FilePen, Trash2, Megaphone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import type { User } from "@/lib/types";
+import type { User, Notification } from "@/lib/types";
+import { Textarea } from "@/components/ui/textarea";
 
 export function UserManagementTab() {
   const [users, setUsers] = useState<User[]>(initialUsers);
+  const [notifications, setNotifications] = useState<Notification[]>(initialNotifications);
   const { toast } = useToast();
 
   const handleAddUser = () => {
@@ -65,14 +67,87 @@ export function UserManagementTab() {
     toast({ title: "User Deleted", description: "The user has been removed.", variant: "destructive" });
   };
 
+  const handleSendAnnouncement = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const title = (form.elements.namedItem('title') as HTMLInputElement).value;
+    const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
+
+    if (!title || !message) {
+      toast({
+        variant: "destructive",
+        title: "Missing fields",
+        description: "Please provide both a title and a message.",
+      });
+      return;
+    }
+
+    const newNotifications: Notification[] = users.map(user => ({
+      id: `n${Date.now()}-${user.id}`,
+      userId: user.id,
+      title: title,
+      description: message,
+      timestamp: 'Just now',
+      read: false,
+    }));
+    
+    // This is a mock implementation. In a real app, you'd send this to a backend.
+    setNotifications(currentNotifications => [...currentNotifications, ...newNotifications]);
+    
+    console.log("New notifications added:", newNotifications);
+
+    toast({
+      title: "Announcement Sent",
+      description: "Your announcement has been sent to all users.",
+    });
+
+    // Close the dialog
+    const closeButton = form.closest('div[role="dialog"]')?.querySelector('button[aria-label="Close"]');
+    if (closeButton instanceof HTMLElement) {
+      closeButton.click();
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
         <CardTitle className="font-headline">User Management</CardTitle>
-        <CardDescription>Add, edit, or remove users.</CardDescription>
+        <CardDescription>Add, edit, or remove users, and send announcements.</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end gap-2 mb-4">
+           <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline">
+                <Megaphone className="mr-2 h-4 w-4" />
+                Send Announcement
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <form onSubmit={handleSendAnnouncement}>
+                <DialogHeader>
+                  <DialogTitle className="font-headline">Send Announcement</DialogTitle>
+                  <DialogDescription>
+                    This message will be sent as a notification to all users.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid gap-2">
+                    <Label htmlFor="title">Title</Label>
+                    <Input id="title" name="title" placeholder="e.g. Holiday Announcement" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="message">Message</Label>
+                    <Textarea id="message" name="message" placeholder="e.g. The office will be closed on Monday." />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Send to All Users</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
+
           <Dialog>
             <DialogTrigger asChild>
               <Button>
