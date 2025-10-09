@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from 'next/link';
 import {
   Card,
   CardContent,
@@ -33,7 +34,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { attendanceRecords, users } from "@/lib/data";
-import { FileDown, Filter, Calendar as CalendarIcon } from "lucide-react";
+import { FileDown, Filter, Calendar as CalendarIcon, MapPin } from "lucide-react";
 import { format } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
@@ -138,7 +139,9 @@ export function AttendanceTab() {
                 <TableHead>User</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Punch In</TableHead>
+                <TableHead>Punch In Location</TableHead>
                 <TableHead>Punch Out</TableHead>
+                <TableHead>Punch Out Location</TableHead>
                 <TableHead>Hours</TableHead>
                 <TableHead className="text-right">Status</TableHead>
               </TableRow>
@@ -149,7 +152,23 @@ export function AttendanceTab() {
                   <TableCell className="font-medium">{record.userName}</TableCell>
                   <TableCell>{record.date}</TableCell>
                   <TableCell>{record.punchIn}</TableCell>
+                  <TableCell>
+                    {record.punchInLocation ? (
+                      <Link href={`https://www.google.com/maps/search/?api=1&query=${record.punchInLocation}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:underline">
+                        <MapPin className="h-4 w-4" />
+                        View
+                      </Link>
+                    ) : '-'}
+                  </TableCell>
                   <TableCell>{record.punchOut ?? "-"}</TableCell>
+                  <TableCell>
+                    {record.punchOutLocation ? (
+                      <Link href={`https://www.google.com/maps/search/?api=1&query=${record.punchOutLocation}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:underline">
+                        <MapPin className="h-4 w-4" />
+                        View
+                      </Link>
+                    ) : '-'}
+                  </TableCell>
                   <TableCell>{record.hours}</TableCell>
                   <TableCell className="text-right">
                      <Badge
