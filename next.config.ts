@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
     ],
   },
    env: {
-    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: "YOUR_GOOGLE_MAPS_API_KEY_HERE",
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: "AIzaSyCg3Kplz0Ne1x8RQK2-9wzZFm1F1bRf5T4",
   }
 };
 
