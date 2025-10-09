@@ -5,6 +5,14 @@ export type User = {
   role: 'Admin' | 'User';
   avatarUrl: string;
   hourlyRate?: number;
+  officeId?: string;
+};
+
+export type Office = {
+  id: string;
+  name: string;
+  latitude: number;
+  longitude: number;
 };
 
 export type AttendanceRecord = {
