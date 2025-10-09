@@ -17,6 +17,8 @@ export type AttendanceRecord = {
   status: 'Present' | 'On Leave' | 'Late' | 'In Progress';
   punchInLocation?: string | null;
   punchOutLocation?: string | null;
+  punchInPhoto?: string | null;
+  punchOutPhoto?: string | null;
 };
 
 export type LeaveRequest = {
