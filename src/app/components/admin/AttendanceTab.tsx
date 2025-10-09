@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from 'next/link';
 import {
   Card,
@@ -17,6 +18,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -34,7 +42,7 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { attendanceRecords, users } from "@/lib/data";
-import { FileDown, Filter, Calendar as CalendarIcon, MapPin } from "lucide-react";
+import { FileDown, Filter, Calendar as CalendarIcon, MapPin, Camera } from "lucide-react";
 import { format } from "date-fns";
 import type { DateRange } from "react-day-picker";
 import { useToast } from "@/hooks/use-toast";
@@ -60,6 +68,25 @@ export function AttendanceTab() {
       default: return "default";
     }
   };
+  
+  const PhotoThumbnail = ({ src, alt }: { src: string, alt: string }) => (
+    <Dialog>
+      <DialogTrigger asChild>
+        <button className="flex items-center gap-1 text-blue-600 hover:underline">
+          <Camera className="h-4 w-4" />
+          View
+        </button>
+      </DialogTrigger>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>{alt}</DialogTitle>
+        </DialogHeader>
+        <div className="mt-4">
+            <Image src={src} alt={alt} width={600} height={450} className="rounded-md object-cover" data-ai-hint="person face" />
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 
   return (
     <Card>
@@ -139,9 +166,9 @@ export function AttendanceTab() {
                 <TableHead>User</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Punch In</TableHead>
-                <TableHead>Punch In Location</TableHead>
+                <TableHead>In Photo</TableHead>
                 <TableHead>Punch Out</TableHead>
-                <TableHead>Punch Out Location</TableHead>
+                <TableHead>Out Photo</TableHead>
                 <TableHead>Hours</TableHead>
                 <TableHead className="text-right">Status</TableHead>
               </TableRow>
@@ -153,20 +180,14 @@ export function AttendanceTab() {
                   <TableCell>{record.date}</TableCell>
                   <TableCell>{record.punchIn}</TableCell>
                   <TableCell>
-                    {record.punchInLocation ? (
-                      <Link href={`https://www.google.com/maps/search/?api=1&query=${record.punchInLocation}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:underline">
-                        <MapPin className="h-4 w-4" />
-                        View
-                      </Link>
+                    {record.punchInPhoto ? (
+                      <PhotoThumbnail src={record.punchInPhoto} alt={`Punch-in photo for ${record.userName} on ${record.date}`} />
                     ) : '-'}
                   </TableCell>
                   <TableCell>{record.punchOut ?? "-"}</TableCell>
-                  <TableCell>
-                    {record.punchOutLocation ? (
-                      <Link href={`https://www.google.com/maps/search/?api=1&query=${record.punchOutLocation}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-blue-600 hover:underline">
-                        <MapPin className="h-4 w-4" />
-                        View
-                      </Link>
+                    <TableCell>
+                    {record.punchOutPhoto ? (
+                       <PhotoThumbnail src={record.punchOutPhoto} alt={`Punch-out photo for ${record.userName} on ${record.date}`} />
                     ) : '-'}
                   </TableCell>
                   <TableCell>{record.hours}</TableCell>

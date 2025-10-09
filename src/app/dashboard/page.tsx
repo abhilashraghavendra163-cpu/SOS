@@ -3,7 +3,7 @@ import { AttendanceCard } from "../components/user/AttendanceCard";
 import { LeaveCard } from "../components/user/LeaveCard";
 import { LocationCard } from "../components/user/LocationCard";
 import { StatCard } from "../components/user/StatCard";
-import { attendanceRecords, leaveRequests, currentUser } from "@/lib/data";
+import { attendanceRecords, currentUser } from "@/lib/data";
 
 export default function UserDashboardPage() {
   const userAttendance = attendanceRecords.filter(

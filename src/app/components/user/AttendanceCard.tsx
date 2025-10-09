@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,13 +9,57 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Clock, TimerOff } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Clock, TimerOff, Camera } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export function AttendanceCard() {
   const [isPunchedIn, setIsPunchedIn] = useState(false);
   const [timer, setTimer] = useState(0);
+  const [hasCameraPermission, setHasCameraPermission] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const getCameraPermission = async () => {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+         toast({
+          variant: "destructive",
+          title: "Camera Not Supported",
+          description: "Your browser does not support camera access.",
+        });
+        setHasCameraPermission(false);
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        setHasCameraPermission(true);
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.error("Error accessing camera:", error);
+        setHasCameraPermission(false);
+        toast({
+          variant: "destructive",
+          title: "Camera Access Denied",
+          description: "Please enable camera permissions in your browser settings to use this feature.",
+        });
+      }
+    };
+
+    getCameraPermission();
+
+    // Cleanup function to stop video stream
+    return () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+        const stream = videoRef.current.srcObject as MediaStream;
+        stream.getTracks().forEach(track => track.stop());
+      }
+    }
+  }, [toast]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -38,7 +82,45 @@ export function AttendanceCard() {
     return `${h}:${m}:${s}`;
   };
 
+  const capturePhoto = (): string | null => {
+    if (!videoRef.current || !canvasRef.current || !hasCameraPermission) return null;
+
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const context = canvas.getContext('2d');
+    if (context) {
+      context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+      return canvas.toDataURL('image/jpeg');
+    }
+    return null;
+  };
+
   const handlePunch = () => {
+    if (!hasCameraPermission) {
+       toast({
+          variant: "destructive",
+          title: "Camera Permission Required",
+          description: "Cannot punch in/out without camera access.",
+        });
+      return;
+    }
+
+    const photoDataUrl = capturePhoto();
+    if (!photoDataUrl) {
+       toast({
+          variant: "destructive",
+          title: "Photo Capture Failed",
+          description: "Could not capture photo. Please try again.",
+        });
+      return;
+    }
+    
+    // Here you would typically send the photoDataUrl to your backend
+    console.log("Captured photo:", photoDataUrl.substring(0, 30) + "...");
+
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
@@ -46,7 +128,7 @@ export function AttendanceCard() {
         setIsPunchedIn(newPunchedInState);
         toast({
           title: `Successfully Punched ${newPunchedInState ? "In" : "Out"}!`,
-          description: `Your attendance has been recorded at ${new Date().toLocaleTimeString()}. Location: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`,
+          description: `Your attendance and photo have been recorded at ${new Date().toLocaleTimeString()}.`,
           variant: "default",
         });
       },
@@ -64,12 +146,26 @@ export function AttendanceCard() {
     <Card className="w-full transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
       <CardHeader>
         <CardTitle className="font-headline flex items-center gap-2">
-          <Clock className="w-6 h-6" />
-          Attendance
+          <Camera className="w-6 h-6" />
+          Photo Punch
         </CardTitle>
-        <CardDescription>Punch in to start your work day.</CardDescription>
+        <CardDescription>Punch in/out with a photo for verification.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center gap-4">
+        <div className="w-full aspect-video rounded-md overflow-hidden bg-muted border relative">
+           <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
+           <canvas ref={canvasRef} className="hidden" />
+           {!hasCameraPermission && (
+             <div className="absolute inset-0 flex items-center justify-center p-4">
+                <Alert variant="destructive">
+                  <AlertTitle>Camera Access Required</AlertTitle>
+                  <AlertDescription>
+                    Please allow camera access to use this feature.
+                  </AlertDescription>
+                </Alert>
+             </div>
+           )}
+        </div>
         <div
           className={`text-6xl font-bold font-mono ${
             isPunchedIn ? "text-primary" : "text-muted-foreground"
@@ -94,6 +190,7 @@ export function AttendanceCard() {
           size="lg"
           className="w-full font-bold text-lg mt-2"
           variant={isPunchedIn ? "destructive" : "default"}
+          disabled={!hasCameraPermission}
         >
           {isPunchedIn ? (
             <>
