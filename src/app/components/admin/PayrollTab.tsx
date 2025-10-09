@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -25,9 +26,36 @@ export function PayrollTab() {
     const { toast } = useToast();
 
     const handleGenerateReport = () => {
+        // 1. Create CSV header
+        const csvHeader = "User Name,Total Hours,Hourly Rate ($),Total Pay ($)\n";
+
+        // 2. Create CSV rows from payroll data
+        const csvRows = payrollData.map(p => 
+            `"${p.userName}",${p.totalHours.toFixed(2)},${p.hourlyRate.toFixed(2)},${p.totalPay.toFixed(2)}`
+        ).join("\n");
+
+        // 3. Combine header and rows
+        const csvContent = csvHeader + csvRows;
+
+        // 4. Create a Blob from the CSV content
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+
+        // 5. Create a temporary link to trigger the download
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        const reportDate = new Date().toISOString().split('T')[0];
+        link.setAttribute("download", `payroll-report-${reportDate}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        
+        // 6. Click the link and clean up
+        link.click();
+        document.body.removeChild(link);
+        
         toast({
-        title: "Payroll Report Generated",
-        description: "Payroll report has been successfully downloaded.",
+            title: "Payroll Report Generated",
+            description: "Your payroll report has been successfully downloaded.",
         });
     };
 
