@@ -9,6 +9,7 @@ export type User = {
   mobileNumber?: string;
   accountNumber?: string;
   ifscCode?: string;
+  isGeoLockEnabled?: boolean;
 };
 
 export type Office = {
