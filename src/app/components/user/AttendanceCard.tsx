@@ -126,30 +126,61 @@ export function AttendanceCard() {
     }
     return null;
   };
+  
+  const performPunch = (latitude?: number, longitude?: number) => {
+      const photoDataUrl = capturePhoto();
+      if (!photoDataUrl) {
+        toast({
+          variant: "destructive",
+          title: "Photo Capture Failed",
+          description: "Could not capture photo. Please try again.",
+        });
+        return;
+      }
+      setLastPunchPhoto(photoDataUrl);
+
+      const newPunchedInState = !isPunchedIn;
+      setIsPunchedIn(newPunchedInState);
+
+      if (newPunchedInState && latitude && longitude) {
+        setPunchInLocation(`${latitude.toFixed(4)}, ${longitude.toFixed(4)}`);
+      } else {
+          setPunchInLocation(null);
+          if(isPunchedIn) { // Only clear timer when punching out
+              setTimeout(() => setLastPunchPhoto(null), 5000);
+          }
+      }
+      
+      toast({
+        title: `Successfully Punched ${newPunchedInState ? 'In' : 'Out'}!`,
+        description: `Your attendance has been recorded at ${new Date().toLocaleTimeString()}.`,
+      });
+  }
 
   const handlePunch = () => {
     if (isPunchedIn) {
         // Punching out doesn't require geo-lock
-        const photoDataUrl = capturePhoto();
-        if (photoDataUrl) setLastPunchPhoto(photoDataUrl);
-        setIsPunchedIn(false);
-        setPunchInLocation(null);
-        toast({
-            title: "Successfully Punched Out!",
-            description: `Your attendance has been recorded at ${new Date().toLocaleTimeString()}.`,
-        });
-        setTimeout(() => setLastPunchPhoto(null), 5000);
+        performPunch();
         return;
     }
-
 
     if (!hasCameraPermission) {
       toast({
         variant: "destructive",
         title: "Camera Permission Required",
-        description: "Cannot punch in/out without camera access.",
+        description: "Cannot punch in without camera access.",
       });
       return;
+    }
+    
+    // If geo-lock is disabled for the user, punch in immediately without location check.
+    if (currentUser.isGeoLockEnabled === false) {
+        toast({
+            title: "Geo-Lock Bypassed",
+            description: "Punching in without location verification.",
+        });
+        performPunch();
+        return;
     }
 
     const assignedOffice = offices.find(o => o.id === currentUser.officeId);
@@ -181,28 +212,8 @@ export function AttendanceCard() {
           });
           return;
         }
-
-        const photoDataUrl = capturePhoto();
-        if (!photoDataUrl) {
-          toast({
-            variant: "destructive",
-            title: "Photo Capture Failed",
-            description: "Could not capture photo. Please try again.",
-          });
-          return;
-        }
-        setLastPunchPhoto(photoDataUrl);
         
-        const newPunchedInState = !isPunchedIn;
-        setIsPunchedIn(newPunchedInState);
-        if (newPunchedInState) {
-          setPunchInLocation(`${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`);
-        }
-        
-        toast({
-          title: `Successfully Punched In!`,
-          description: `Your attendance has been recorded at ${new Date().toLocaleTimeString()}.`,
-        });
+        performPunch(latitude, longitude);
       },
       (error) => {
         toast({

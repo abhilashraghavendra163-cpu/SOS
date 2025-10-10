@@ -42,12 +42,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { users as initialUsers, notifications as initialNotifications, offices } from "@/lib/data";
-import { UserPlus, FilePen, Trash2, Megaphone } from "lucide-react";
+import { UserPlus, FilePen, Trash2, Megaphone, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import type { User, Notification } from "@/lib/types";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Switch } from "@/components/ui/switch";
+import { cn } from "@/lib/utils";
 
 export function UserManagementTab() {
   const [users, setUsers] = useState<User[]>(initialUsers);
@@ -122,6 +124,18 @@ export function UserManagementTab() {
         </span>
       </div>
     );
+  };
+  
+  const handleGeoLockToggle = (userId: string, isEnabled: boolean) => {
+    setUsers(currentUsers =>
+      currentUsers.map(user =>
+        user.id === userId ? { ...user, isGeoLockEnabled: isEnabled } : user
+      )
+    );
+    toast({
+      title: `Geo-Lock ${isEnabled ? 'Enabled' : 'Disabled'}`,
+      description: `Geo-locking has been updated for the user.`,
+    });
   };
 
   return (
@@ -218,6 +232,10 @@ export function UserManagementTab() {
                         </SelectContent>
                     </Select>
                 </div>
+                <div className="flex items-center space-x-2 md:col-span-2">
+                    <Switch id="geo-lock-add" defaultChecked={true} />
+                    <Label htmlFor="geo-lock-add">Enable Geo-Lock</Label>
+                </div>
               </div>
               <DialogFooter>
                 <Button onClick={handleAddUser}>Create User</Button>
@@ -232,8 +250,7 @@ export function UserManagementTab() {
                 <TableHead>Name</TableHead>
                 <TableHead>Contact</TableHead>
                 <TableHead>Office</TableHead>
-                <TableHead>Bank Details</TableHead>
-                <TableHead>Hourly Rate</TableHead>
+                <TableHead>Geo-Lock</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
@@ -250,12 +267,16 @@ export function UserManagementTab() {
                   </TableCell>
                    <TableCell>{getOfficeDisplay(user.officeId)}</TableCell>
                    <TableCell>
-                     <div className="flex flex-col">
-                        <span className="text-sm">{user.accountNumber ?? 'N/A'}</span>
-                        <span className="text-xs text-muted-foreground">{user.ifscCode ?? 'N/A'}</span>
-                    </div>
+                      <div className="flex items-center space-x-2">
+                          <Switch
+                              id={`geo-lock-${user.id}`}
+                              checked={user.isGeoLockEnabled}
+                              onCheckedChange={(isEnabled) => handleGeoLockToggle(user.id, isEnabled)}
+                              aria-label="Toggle Geo-Lock"
+                          />
+                          <MapPin className={cn("h-4 w-4", user.isGeoLockEnabled ? 'text-primary' : 'text-muted-foreground')} />
+                      </div>
                    </TableCell>
-                   <TableCell>${user.hourlyRate?.toFixed(2) ?? 'N/A'}</TableCell>
                   <TableCell>
                     <Badge variant={user.role === "Admin" ? "default" : "secondary"}>
                       {user.role}
@@ -312,6 +333,10 @@ export function UserManagementTab() {
                                     </SelectContent>
                                 </Select>
                             </div>
+                            <div className="flex items-center space-x-2 md:col-span-2">
+                                <Switch id={`geo-lock-edit-${user.id}`} defaultChecked={user.isGeoLockEnabled} />
+                                <Label htmlFor={`geo-lock-edit-${user.id}`}>Enable Geo-Lock</Label>
+                           </div>
                           </div>
                           <DialogFooter>
                             <Button onClick={handleEditUser}>Save Changes</Button>
