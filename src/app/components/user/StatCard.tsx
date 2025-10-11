@@ -2,24 +2,17 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { CheckCircle, Clock, XCircle, Users, type LucideProps } from "lucide-react";
+import { CheckCircle, Clock, XCircle, Users } from "lucide-react";
 import * as React from "react";
 
 const iconMap = {
-  CheckCircle: (props: LucideProps) => <CheckCircle {...props} />,
-  Clock: (props: LucideProps) => <Clock {...props} />,
-  XCircle: (props: LucideProps) => <XCircle {...props} />,
-  Users: (props: LucideProps) => <Users {...props} />,
+  CheckCircle: (props) => <CheckCircle {...props} />,
+  Clock: (props) => <Clock {...props} />,
+  XCircle: (props) => <XCircle {...props} />,
+  Users: (props) => <Users {...props} />,
 };
 
-type StatCardProps = {
-  title: string;
-  value: number | string;
-  iconName: keyof typeof iconMap;
-  color?: string;
-};
-
-export function StatCard({ title, value, iconName, color }: StatCardProps) {
+export function StatCard({ title, value, iconName, color }) {
   const Icon = iconMap[iconName];
 
   return (
