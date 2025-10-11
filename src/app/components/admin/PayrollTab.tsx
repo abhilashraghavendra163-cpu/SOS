@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import {
@@ -27,7 +28,7 @@ export function PayrollTab() {
 
     const handleGenerateReport = () => {
         // 1. Create CSV header
-        const csvHeader = "User Name,Email,Mobile Number,Account Number,IFSC Code,Total Hours,Hourly Rate ($),Total Pay ($)\n";
+        const csvHeader = "User Name,Email,Mobile Number,Account Number,IFSC Code,Total Hours,Hourly Rate (₹),Total Pay (₹)\n";
 
         // 2. Create a map of users for quick lookup
         const userMap = new Map(users.map(user => [user.id, user]));
@@ -101,9 +102,9 @@ export function PayrollTab() {
                 <TableRow key={payroll.id}>
                   <TableCell className="font-medium">{payroll.userName}</TableCell>
                   <TableCell>{payroll.totalHours.toFixed(2)}</TableCell>
-                  <TableCell>${payroll.hourlyRate.toFixed(2)}</TableCell>
+                  <TableCell>₹{payroll.hourlyRate.toFixed(2)}</TableCell>
                   <TableCell className="text-right font-semibold">
-                    ${payroll.totalPay.toFixed(2)}
+                    ₹{payroll.totalPay.toFixed(2)}
                   </TableCell>
                 </TableRow>
               ))}
