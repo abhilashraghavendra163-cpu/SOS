@@ -44,7 +44,7 @@ export function MyLeaveRequests() {
       <CardHeader>
         <CardTitle className="font-bold flex items-center gap-2">
           <CalendarCheck2 className="w-6 h-6" />
-          My Leave Requests
+          Leave Request History
         </CardTitle>
         <CardDescription>
           A history of your submitted leave requests.

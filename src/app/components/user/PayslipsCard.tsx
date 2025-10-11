@@ -32,7 +32,7 @@ export function PayslipsCard() {
       <CardHeader>
         <CardTitle className="font-bold flex items-center gap-2">
           <FileDown className="w-6 h-6" />
-          My Payslips
+          Download Payslips
         </CardTitle>
         <CardDescription>Download your monthly payslips.</CardDescription>
       </CardHeader>

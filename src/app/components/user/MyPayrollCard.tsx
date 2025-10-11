@@ -19,7 +19,7 @@ export function MyPayrollCard() {
         <CardHeader>
           <CardTitle className="font-bold flex items-center gap-2">
             <Wallet className="w-6 h-6" />
-            My Payroll
+            My Payroll Summary
           </CardTitle>
           <CardDescription>Your current payroll information.</CardDescription>
         </CardHeader>
@@ -35,7 +35,7 @@ export function MyPayrollCard() {
       <CardHeader>
         <CardTitle className="font-bold flex items-center gap-2">
           <Wallet className="w-6 h-6" />
-          My Payroll
+          My Payroll Summary
         </CardTitle>
         <CardDescription>Your current payroll information for this period.</CardDescription>
       </CardHeader>

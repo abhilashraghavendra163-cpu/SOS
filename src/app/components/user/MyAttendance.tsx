@@ -44,7 +44,7 @@ export function MyAttendance() {
       <CardHeader>
         <CardTitle className="font-bold flex items-center gap-2">
           <CalendarDays className="w-6 h-6" />
-          My Attendance
+          My Attendance History
         </CardTitle>
         <CardDescription>
           A summary of your attendance records.

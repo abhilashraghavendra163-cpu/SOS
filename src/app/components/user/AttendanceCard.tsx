@@ -230,7 +230,7 @@ export function AttendanceCard() {
       <CardHeader>
         <CardTitle className="font-headline flex items-center gap-2">
           <Camera className="w-6 h-6" />
-          Photo Punch
+          Photo Punch Attendance
         </CardTitle>
         <CardDescription>Punch in or out with a photo for verification.</CardDescription>
       </CardHeader>

@@ -56,7 +56,7 @@ export function LocationCard() {
       <CardHeader>
         <CardTitle className="font-bold flex items-center gap-2">
           <MapPin className="w-6 h-6" />
-          My Location
+          My Current Location
         </CardTitle>
         <CardDescription>Your current location for attendance.</CardDescription>
       </CardHeader>

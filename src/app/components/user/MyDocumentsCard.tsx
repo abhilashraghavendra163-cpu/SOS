@@ -50,7 +50,7 @@ export function MyDocumentsCard() {
       <CardHeader>
         <CardTitle className="font-bold flex items-center gap-2">
           <FileText className="w-6 h-6" />
-          My Documents
+          Upload Documents
         </CardTitle>
         <CardDescription>
           Upload your personal documents for verification.
