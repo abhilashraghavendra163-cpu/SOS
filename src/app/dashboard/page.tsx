@@ -1,13 +1,9 @@
-import { MyAttendance } from "../components/user/MyAttendance";
 import { AttendanceCard } from "../components/user/AttendanceCard";
 import { LeaveCard } from "../components/user/LeaveCard";
 import { LocationCard } from "../components/user/LocationCard";
 import { StatCard } from "../components/user/StatCard";
-import { MyPayrollCard } from "../components/user/MyPayrollCard";
 import { MyLeaveRequests } from "../components/user/MyLeaveRequests";
 import { attendanceRecords, currentUser } from "@/lib/data";
-import { MyDocumentsCard } from "../components/user/MyDocumentsCard";
-import { PayslipsCard } from "../components/user/PayslipsCard";
 
 export default function UserDashboardPage() {
   const userAttendance = attendanceRecords.filter(
@@ -56,17 +52,7 @@ export default function UserDashboardPage() {
             <LeaveCard />
             <MyLeaveRequests />
         </div>
-        <div className="flex flex-col gap-6">
-          <MyPayrollCard />
-          <PayslipsCard />
-        </div>
-        <div className="flex flex-col gap-6">
-          <MyDocumentsCard />
-        </div>
          <LocationCard />
-      </div>
-      <div>
-        <MyAttendance />
       </div>
     </div>
   );

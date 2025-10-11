@@ -13,7 +13,7 @@ import {
   SidebarFooter,
   SidebarInset,
 } from "@/components/ui/sidebar";
-import { LogOut, LayoutDashboard } from "lucide-react";
+import { LogOut, LayoutDashboard, CalendarDays, Wallet, UserCircle } from "lucide-react";
 import { AppIcon } from "../components/AppIcon";
 import { DashboardHeader } from "../components/DashboardHeader";
 import { currentUser } from "@/lib/data";
@@ -23,6 +23,21 @@ const menuItems = [
     href: "/dashboard",
     label: "Dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    href: "/dashboard/attendance",
+    label: "My Attendance",
+    icon: CalendarDays,
+  },
+  {
+    href: "/dashboard/payroll",
+    label: "My Payroll",
+    icon: Wallet,
+  },
+    {
+    href: "/dashboard/profile",
+    label: "My Profile",
+    icon: UserCircle,
   },
 ];
 
