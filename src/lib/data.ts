@@ -1,4 +1,4 @@
-import type { User, AttendanceRecord, LeaveRequest, Payroll, Notification, UserDocument, Office } from './types';
+import type { User, AttendanceRecord, LeaveRequest, Payroll, Notification, UserDocument, Office, Holiday } from './types';
 
 export const offices: Office[] = Array.from({ length: 24 }, (_, i) => ({
   id: `office${i + 1}`,
@@ -10,19 +10,18 @@ export const offices: Office[] = Array.from({ length: 24 }, (_, i) => ({
 
 
 export const users: User[] = [
-  { id: '1', name: 'Alex Johnson', email: 'alex.j@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user1/100/100', hourlyRate: 25, officeId: 'office1', mobileNumber: '123-456-7890', accountNumber: '1234567890', ifscCode: 'ABC0000123', isGeoLockEnabled: true },
-  { id: '2', name: 'Maria Garcia', email: 'maria.g@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user2/100/100', hourlyRate: 22, officeId: 'office2', mobileNumber: '234-567-8901', accountNumber: '0987654321', ifscCode: 'DEF0000456', isGeoLockEnabled: true },
-  { id: '3', name: 'James Smith', email: 'james.s@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user3/100/100', hourlyRate: 30, officeId: 'office3', mobileNumber: '345-678-9012', accountNumber: '1122334455', ifscCode: 'GHI0000789', isGeoLockEnabled: true },
-  { id: '4', name: 'Priya Patel', email: 'priya.p@example.com', role: 'Admin', avatarUrl: 'https://picsum.photos/seed/admin1/100/100', hourlyRate: 50, mobileNumber: '456-789-0123', isGeoLockEnabled: true },
-  { id: '5', name: 'Chen Wei', email: 'chen.w@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user4/100/100', hourlyRate: 28, officeId: 'office4', mobileNumber: '567-890-1234', accountNumber: '5566778899', ifscCode: 'JKL0000101', isGeoLockEnabled: true },
-  // Add more users and assign them to offices
+  { id: '1', name: 'Alex Johnson', email: 'alex.j@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user1/100/100', monthlySalary: 50000, officeId: 'office1', mobileNumber: '123-456-7890', accountNumber: '1234567890', ifscCode: 'ABC0000123', isGeoLockEnabled: true },
+  { id: '2', name: 'Maria Garcia', email: 'maria.g@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user2/100/100', monthlySalary: 45000, officeId: 'office2', mobileNumber: '234-567-8901', accountNumber: '0987654321', ifscCode: 'DEF0000456', isGeoLockEnabled: true },
+  { id: '3', name: 'James Smith', email: 'james.s@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user3/100/100', monthlySalary: 60000, officeId: 'office3', mobileNumber: '345-678-9012', accountNumber: '1122334455', ifscCode: 'GHI0000789', isGeoLockEnabled: true },
+  { id: '4', name: 'Priya Patel', email: 'priya.p@example.com', role: 'Admin', avatarUrl: 'https://picsum.photos/seed/admin1/100/100', monthlySalary: 100000, mobileNumber: '456-789-0123', isGeoLockEnabled: true },
+  { id: '5', name: 'Chen Wei', email: 'chen.w@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user4/100/100', monthlySalary: 55000, officeId: 'office4', mobileNumber: '567-890-1234', accountNumber: '5566778899', ifscCode: 'JKL0000101', isGeoLockEnabled: true },
   ...Array.from({ length: 19 }, (_, i) => ({
     id: `${i + 6}`,
     name: `User ${i + 6}`,
     email: `user${i + 6}@example.com`,
     role: 'User' as const,
     avatarUrl: `https://picsum.photos/seed/user${i + 6}/100/100`,
-    hourlyRate: 20 + i,
+    monthlySalary: 40000 + i * 1000,
     officeId: `office${i + 5}`,
     mobileNumber: `555-555-${5000 + i}`,
     accountNumber: `${Math.floor(1000000000 + Math.random() * 9000000000)}`,
@@ -53,17 +52,76 @@ export const leaveRequests: LeaveRequest[] = [
   { id: 'l4', userId: '1', userName: 'Alex Johnson', date: '2024-07-26', reason: 'Vacation', status: 'Approved' },
 ];
 
+export const holidays: Holiday[] = [
+    { date: new Date('2024-08-15'), name: 'Independence Day' },
+    { date: new Date('2024-10-02'), name: 'Gandhi Jayanti' },
+    { date: new Date('2024-12-25'), name: 'Christmas' },
+];
+
+// Helper function to calculate working days in a month
+const getWorkingDaysInMonth = (year: number, month: number, holidayList: Holiday[]): number => {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    let workingDays = 0;
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        const currentDate = new Date(year, month, day);
+        const dayOfWeek = currentDate.getDay();
+
+        const isHoliday = holidayList.some(
+            holiday => holiday.date.getFullYear() === year &&
+                       holiday.date.getMonth() === month &&
+                       holiday.date.getDate() === day
+        );
+
+        if (isHoliday) {
+            continue;
+        }
+        
+        // 0 = Sunday, 6 = Saturday
+        if (dayOfWeek === 0) { // Sunday
+            continue;
+        } else if (dayOfWeek === 6) { // Saturday
+            workingDays += 0.5; // Half day
+        } else { // Weekday
+            workingDays += 1;
+        }
+    }
+    return workingDays;
+};
+
 export const payrollData: Payroll[] = users.filter(u => u.role === 'User').map(user => {
   const userAttendance = attendanceRecords.filter(rec => rec.userId === user.id && (rec.status === 'Present' || rec.status === 'Late'));
   const totalHours = userAttendance.reduce((acc, rec) => acc + parseFloat(rec.hours), 0);
-  const hourlyRate = user.hourlyRate || 0;
+  const monthlySalary = user.monthlySalary || 0;
+
+  // For simplicity, we calculate payroll based on July 2024
+  const currentYear = 2024;
+  const currentMonth = 6; // July (0-indexed)
+  
+  const workingDaysInMonth = getWorkingDaysInMonth(currentYear, currentMonth, holidays);
+  const perDaySalary = workingDaysInMonth > 0 ? monthlySalary / workingDaysInMonth : 0;
+  
+  const presentDays = userAttendance.length; // Simplified: assumes each record is a full day. A more complex system would check hours.
+  
+  // A more realistic calculation would factor in half-days, leaves etc.
+  // This is a simplified calculation for demonstration.
+  const attendedWorkingDays = userAttendance.reduce((acc, record) => {
+    const recordDate = new Date(record.date);
+    const dayOfWeek = recordDate.getDay();
+    if (dayOfWeek === 6) return acc + 0.5; // Saturday
+    return acc + 1;
+  }, 0);
+
+
+  const totalPay = perDaySalary * attendedWorkingDays;
+
   return {
     id: `p-${user.id}`,
     userId: user.id,
     userName: user.name,
     totalHours: parseFloat(totalHours.toFixed(2)),
-    hourlyRate: hourlyRate,
-    totalPay: parseFloat((totalHours * hourlyRate).toFixed(2))
+    monthlySalary: monthlySalary,
+    totalPay: parseFloat(totalPay.toFixed(2))
   }
 });
 
