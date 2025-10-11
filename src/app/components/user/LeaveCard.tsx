@@ -44,7 +44,7 @@ export function LeaveCard() {
       <CardHeader>
         <CardTitle className="font-bold flex items-center gap-2">
           <CalendarPlus className="w-6 h-6" />
-          Apply for Leave
+          New Leave Request
         </CardTitle>
         <CardDescription>Request time off from work.</CardDescription>
       </CardHeader>
@@ -53,7 +53,7 @@ export function LeaveCard() {
           <DialogTrigger asChild>
             <Button size="lg" className="w-full font-bold" variant="outline">
               <CalendarPlus className="mr-2 h-5 w-5" />
-              New Leave Request
+              Create Request
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
