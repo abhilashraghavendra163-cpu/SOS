@@ -52,14 +52,14 @@ export function MyPayrollCard() {
                 <CircleDollarSign className="w-5 h-5 text-muted-foreground" />
                 <span className="font-medium">Hourly Rate</span>
             </div>
-            <span className="font-bold text-lg">${userPayroll.hourlyRate.toFixed(2)}</span>
+            <span className="font-bold text-lg">₹{userPayroll.hourlyRate.toFixed(2)}</span>
         </div>
         <div className="flex justify-between items-center p-4 rounded-lg bg-primary/10 border border-primary/20">
             <div className="flex items-center gap-3">
                 <Wallet className="w-5 h-5 text-primary" />
                 <span className="font-semibold text-primary">Total Earnings</span>
             </div>
-            <span className="font-bold text-xl text-primary">${userPayroll.totalPay.toFixed(2)}</span>
+            <span className="font-bold text-xl text-primary">₹{userPayroll.totalPay.toFixed(2)}</span>
         </div>
       </CardContent>
     </Card>
