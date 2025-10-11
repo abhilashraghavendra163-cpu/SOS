@@ -13,7 +13,7 @@ import {
   SidebarFooter,
   SidebarInset,
 } from "@/components/ui/sidebar";
-import { LogOut, LayoutDashboard, CalendarDays, CalendarCheck, Users, Building, FileArchive, Wallet, BarChart3 } from "lucide-react";
+import { LogOut, LayoutDashboard, CalendarDays, CalendarCheck, Users, Building, FileArchive, Wallet, BarChart3, CalendarX2 } from "lucide-react";
 import { AppIcon } from "../components/AppIcon";
 import { DashboardHeader } from "../components/DashboardHeader";
 import { adminUser } from "@/lib/data";
@@ -23,6 +23,7 @@ const menuItems = [
   { href: "/admin", tab: "leaves", label: "Leave Requests", icon: CalendarCheck },
   { href: "/admin", tab: "users", label: "User Management", icon: Users },
   { href: "/admin", tab: "offices", label: "Offices", icon: Building },
+  { href: "/admin", tab: "holidays", label: "Holidays", icon: CalendarX2 },
   { href: "/admin", tab: "documents", label: "Documents", icon: FileArchive },
   { href: "/admin", tab: "payroll", label: "Payroll", icon: Wallet },
   { href: "/admin", tab: "analytics", label: "Analytics", icon: BarChart3 },

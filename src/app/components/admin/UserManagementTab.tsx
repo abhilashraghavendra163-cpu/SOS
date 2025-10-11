@@ -207,8 +207,8 @@ export function UserManagementTab() {
                   <Input id="mobileNumber" placeholder="e.g. 987-654-3210" />
                 </div>
                  <div className="grid gap-2">
-                  <Label htmlFor="hourly-rate">Hourly Rate (₹)</Label>
-                  <Input id="hourly-rate" type="number" placeholder="e.g. 25" />
+                  <Label htmlFor="monthly-salary">Monthly Salary (₹)</Label>
+                  <Input id="monthly-salary" type="number" placeholder="e.g. 50000" />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="accountNumber">Bank Account Number</Label>
@@ -308,8 +308,8 @@ export function UserManagementTab() {
                                 <Input id="mobileNumber-edit" defaultValue={user.mobileNumber} />
                             </div>
                              <div className="grid gap-2">
-                              <Label htmlFor="hourly-rate-edit">Hourly Rate (₹)</Label>
-                              <Input id="hourly-rate-edit" type="number" defaultValue={user.hourlyRate?.toString() ?? ''} />
+                              <Label htmlFor="monthly-salary-edit">Monthly Salary (₹)</Label>
+                              <Input id="monthly-salary-edit" type="number" defaultValue={user.monthlySalary?.toString() ?? ''} />
                             </div>
                              <div className="grid gap-2">
                                 <Label htmlFor="accountNumber-edit">Bank Account Number</Label>

@@ -4,7 +4,7 @@ export type User = {
   email: string;
   role: 'Admin' | 'User';
   avatarUrl: string;
-  hourlyRate?: number;
+  monthlySalary?: number;
   officeId?: string;
   mobileNumber?: string;
   accountNumber?: string;
@@ -48,7 +48,7 @@ export type Payroll = {
   userId: string;
   userName: string;
   totalHours: number;
-  hourlyRate: number;
+  monthlySalary: number;
   totalPay: number;
 };
 
@@ -69,4 +69,9 @@ export type UserDocument = {
   fileName: string;
   fileUrl: string; // In a real app, this would be a secure URL from a storage service
   uploadedAt: string;
+};
+
+export type Holiday = {
+  date: Date;
+  name: string;
 };

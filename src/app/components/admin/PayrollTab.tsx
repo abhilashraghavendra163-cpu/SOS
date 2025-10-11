@@ -28,7 +28,7 @@ export function PayrollTab() {
 
     const handleGenerateReport = () => {
         // 1. Create CSV header
-        const csvHeader = "User Name,Email,Mobile Number,Account Number,IFSC Code,Total Hours,Hourly Rate (₹),Total Pay (₹)\n";
+        const csvHeader = "User Name,Email,Mobile Number,Account Number,IFSC Code,Total Hours,Monthly Salary (₹),Total Pay (₹)\n";
 
         // 2. Create a map of users for quick lookup
         const userMap = new Map(users.map(user => [user.id, user]));
@@ -41,7 +41,7 @@ export function PayrollTab() {
             const account = user?.accountNumber ?? 'N/A';
             const ifsc = user?.ifscCode ?? 'N/A';
 
-            return `"${p.userName}",${email},${mobile},${account},${ifsc},${p.totalHours.toFixed(2)},${p.hourlyRate.toFixed(2)},${p.totalPay.toFixed(2)}`;
+            return `"${p.userName}",${email},${mobile},${account},${ifsc},${p.totalHours.toFixed(2)},${p.monthlySalary.toFixed(2)},${p.totalPay.toFixed(2)}`;
         }).join("\n");
 
 
@@ -93,7 +93,7 @@ export function PayrollTab() {
               <TableRow>
                 <TableHead>User</TableHead>
                 <TableHead>Total Hours</TableHead>
-                <TableHead>Hourly Rate</TableHead>
+                <TableHead>Monthly Salary</TableHead>
                 <TableHead className="text-right">Total Pay</TableHead>
               </TableRow>
             </TableHeader>
@@ -102,7 +102,7 @@ export function PayrollTab() {
                 <TableRow key={payroll.id}>
                   <TableCell className="font-medium">{payroll.userName}</TableCell>
                   <TableCell>{payroll.totalHours.toFixed(2)}</TableCell>
-                  <TableCell>₹{payroll.hourlyRate.toFixed(2)}</TableCell>
+                  <TableCell>₹{payroll.monthlySalary.toFixed(2)}</TableCell>
                   <TableCell className="text-right font-semibold">
                     ₹{payroll.totalPay.toFixed(2)}
                   </TableCell>

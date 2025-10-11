@@ -50,9 +50,9 @@ export function MyPayrollCard() {
          <div className="flex justify-between items-center p-3 rounded-lg bg-muted/50">
             <div className="flex items-center gap-3">
                 <CircleDollarSign className="w-5 h-5 text-muted-foreground" />
-                <span className="font-medium">Hourly Rate</span>
+                <span className="font-medium">Monthly Salary</span>
             </div>
-            <span className="font-bold text-lg">₹{userPayroll.hourlyRate.toFixed(2)}</span>
+            <span className="font-bold text-lg">₹{userPayroll.monthlySalary.toFixed(2)}</span>
         </div>
         <div className="flex justify-between items-center p-4 rounded-lg bg-primary/10 border border-primary/20">
             <div className="flex items-center gap-3">

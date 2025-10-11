@@ -3,7 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CalendarDays, CalendarCheck, Users, Wallet, BarChart3, FileArchive, Building, LayoutDashboard } from "lucide-react";
+import { CalendarDays, CalendarCheck, Users, Wallet, BarChart3, FileArchive, Building, LayoutDashboard, CalendarX2 } from "lucide-react";
 import { AttendanceTab } from "../components/admin/AttendanceTab";
 import { LeaveRequestsTab } from "../components/admin/LeaveRequestsTab";
 import { UserManagementTab } from "../components/admin/UserManagementTab";
@@ -11,6 +11,7 @@ import { PayrollTab } from "../components/admin/PayrollTab";
 import { AnalyticsTab } from "../components/admin/AnalyticsTab";
 import { DocumentsTab } from "../components/admin/DocumentsTab";
 import { OfficesTab } from "../components/admin/OfficesTab";
+import { HolidaysTab } from "../components/admin/HolidaysTab";
 import Link from 'next/link';
 import { StatCard } from '../components/user/StatCard';
 import { users, leaveRequests, attendanceRecords } from '@/lib/data';
@@ -56,11 +57,12 @@ function AdminDashboardContent() {
 
   return (
     <Tabs defaultValue={tab} value={tab} className="w-full">
-        <TabsList className="grid w-full h-auto grid-cols-2 sm:grid-cols-4 lg:grid-cols-7">
+        <TabsList className="grid w-full h-auto grid-cols-2 sm:grid-cols-4 lg:grid-cols-8">
             <TabsTrigger value="attendance" asChild><Link href="/admin?tab=attendance"><CalendarDays className="mr-2 h-4 w-4" />Attendance</Link></TabsTrigger>
             <TabsTrigger value="leaves" asChild><Link href="/admin?tab=leaves"><CalendarCheck className="mr-2 h-4 w-4" />Leave Requests</Link></TabsTrigger>
             <TabsTrigger value="users" asChild><Link href="/admin?tab=users"><Users className="mr-2 h-4 w-4" />User Management</Link></TabsTrigger>
             <TabsTrigger value="offices" asChild><Link href="/admin?tab=offices"><Building className="mr-2 h-4 w-4" />Offices</Link></TabsTrigger>
+            <TabsTrigger value="holidays" asChild><Link href="/admin?tab=holidays"><CalendarX2 className="mr-2 h-4 w-4" />Holidays</Link></TabsTrigger>
             <TabsTrigger value="documents" asChild><Link href="/admin?tab=documents"><FileArchive className="mr-2 h-4 w-4" />Documents</Link></TabsTrigger>
             <TabsTrigger value="payroll" asChild><Link href="/admin?tab=payroll"><Wallet className="mr-2 h-4 w-4" />Payroll</Link></TabsTrigger>
             <TabsTrigger value="analytics" asChild><Link href="/admin?tab=analytics"><BarChart3 className="mr-2 h-4 w-4" />Analytics</Link></TabsTrigger>
@@ -70,6 +72,7 @@ function AdminDashboardContent() {
             <TabsContent value="leaves"><LeaveRequestsTab /></TabsContent>
             <TabsContent value="users"><UserManagementTab /></TabsContent>
             <TabsContent value="offices"><OfficesTab /></TabsContent>
+            <TabsContent value="holidays"><HolidaysTab /></TabsContent>
             <TabsContent value="documents"><DocumentsTab /></TabsContent>
             <TabsContent value="payroll"><PayrollTab /></TabsContent>
             <TabsContent value="analytics"><AnalyticsTab /></TabsContent>
