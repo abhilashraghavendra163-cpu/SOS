@@ -51,7 +51,7 @@ export function MyAttendance() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[calc(100vh-22rem)]">
+        <ScrollArea className="h-[calc(100vh-16rem)]">
           <Table>
             <TableHeader className="sticky top-0 bg-card z-10">
               <TableRow>
