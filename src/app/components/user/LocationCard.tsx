@@ -52,7 +52,7 @@ export function LocationCard() {
   }, [toast]);
 
   return (
-    <Card className="w-full">
+    <Card className="w-full transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
       <CardHeader>
         <CardTitle className="font-bold flex items-center gap-2">
           <MapPin className="w-6 h-6" />

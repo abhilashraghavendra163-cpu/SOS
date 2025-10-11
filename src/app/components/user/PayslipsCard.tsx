@@ -28,7 +28,7 @@ export function PayslipsCard() {
   };
 
   return (
-    <Card>
+    <Card className="transform transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl">
       <CardHeader>
         <CardTitle className="font-bold flex items-center gap-2">
           <FileDown className="w-6 h-6" />
