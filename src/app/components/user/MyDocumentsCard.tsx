@@ -59,7 +59,7 @@ export function MyDocumentsCard() {
       <CardContent>
         <form onSubmit={handleUpload} className="space-y-6">
           {documentTypes.map(doc => (
-            <div key={doc.id} className="space-y-2">
+            <div key={doc.id} className="space-y-2 p-3 rounded-lg transition-transform duration-200 hover:scale-105 hover:bg-muted/50">
               <Label htmlFor={doc.id}>{doc.label}</Label>
               <div className="flex items-center gap-2">
                 <Input
