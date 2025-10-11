@@ -40,7 +40,7 @@ export function PayslipsCard() {
         {payslips.map((payslip) => (
           <div
             key={payslip.id}
-            className="flex justify-between items-center p-3 rounded-lg bg-muted/50"
+            className="flex justify-between items-center p-3 rounded-lg bg-muted/50 transition-transform duration-200 hover:scale-105"
           >
             <span className="font-medium">{payslip.month}</span>
             <Button
