@@ -9,14 +9,12 @@ import { ai } from '@/ai/genkit';
 import {
   SummarizeAnalyticsInputSchema,
   SummarizeAnalyticsOutputSchema,
-  type SummarizeAnalyticsInput,
-  type SummarizeAnalyticsOutput,
 } from '@/ai/schemas';
 
 
 export async function summarizeAnalytics(
-  input: SummarizeAnalyticsInput
-): Promise<SummarizeAnalyticsOutput> {
+  input
+) {
   return summarizeAnalyticsFlow(input);
 }
 
@@ -39,6 +37,6 @@ const summarizeAnalyticsFlow = ai.defineFlow(
   },
   async (input) => {
     const { output } = await prompt(input);
-    return output!;
+    return output;
   }
 );

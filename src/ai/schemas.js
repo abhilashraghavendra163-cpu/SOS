@@ -1,19 +1,17 @@
 import { z } from 'zod';
 
 /**
- * @fileOverview Schemas and types for AI flows.
+ * @fileOverview Schemas for AI flows.
  */
 
 // Schema for summarizing leave request reasons.
 export const SummarizeLeaveRequestInputSchema = z.object({
   reason: z.string().describe('The leave request reason to summarize.'),
 });
-export type SummarizeLeaveRequestInput = z.infer<typeof SummarizeLeaveRequestInputSchema>;
 
 export const SummarizeLeaveRequestOutputSchema = z.object({
   summary: z.string().describe('A concise summary of the leave request reason.'),
 });
-export type SummarizeLeaveRequestOutput = z.infer<typeof SummarizeLeaveRequestOutputSchema>;
 
 // Schema for summarizing analytics data.
 const AttendanceRecordSchema = z.object({
@@ -30,9 +28,7 @@ const AttendanceRecordSchema = z.object({
 export const SummarizeAnalyticsInputSchema = z.object({
   attendanceData: z.array(AttendanceRecordSchema).describe('The list of attendance records for the week.'),
 });
-export type SummarizeAnalyticsInput = z.infer<typeof SummarizeAnalyticsInputSchema>;
 
 export const SummarizeAnalyticsOutputSchema = z.object({
   summary: z.string().describe('A concise, professional summary of the attendance analytics.'),
 });
-export type SummarizeAnalyticsOutput = z.infer<typeof SummarizeAnalyticsOutputSchema>;

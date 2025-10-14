@@ -9,14 +9,12 @@ import { ai } from '@/ai/genkit';
 import {
   SummarizeLeaveRequestInputSchema,
   SummarizeLeaveRequestOutputSchema,
-  type SummarizeLeaveRequestInput,
-  type SummarizeLeaveRequestOutput,
 } from '@/ai/schemas';
 
 
 export async function summarizeLeaveRequest(
-  input: SummarizeLeaveRequestInput
-): Promise<SummarizeLeaveRequestOutput> {
+  input
+) {
   return summarizeLeaveRequestFlow(input);
 }
 
@@ -37,6 +35,6 @@ const summarizeLeaveRequestFlow = ai.defineFlow(
   },
   async (input) => {
     const { output } = await prompt(input);
-    return output!;
+    return output;
   }
 );

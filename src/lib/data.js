@@ -1,6 +1,4 @@
-import type { User, AttendanceRecord, LeaveRequest, Payroll, Notification, UserDocument, Office, Holiday } from './types';
-
-export const offices: Office[] = Array.from({ length: 24 }, (_, i) => ({
+export const offices = Array.from({ length: 24 }, (_, i) => ({
   id: `office${i + 1}`,
   name: `Office Branch ${i + 1}`,
   // Placeholder coordinates - spread around a central point for variety
@@ -9,7 +7,7 @@ export const offices: Office[] = Array.from({ length: 24 }, (_, i) => ({
 }));
 
 
-export const users: User[] = [
+export const users = [
   { id: '1', name: 'Alex Johnson', email: 'alex.j@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user1/100/100', monthlySalary: 50000, officeId: 'office1', mobileNumber: '123-456-7890', accountNumber: '1234567890', ifscCode: 'ABC0000123', isGeoLockEnabled: true },
   { id: '2', name: 'Maria Garcia', email: 'maria.g@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user2/100/100', monthlySalary: 45000, officeId: 'office2', mobileNumber: '234-567-8901', accountNumber: '0987654321', ifscCode: 'DEF0000456', isGeoLockEnabled: true },
   { id: '3', name: 'James Smith', email: 'james.s@example.com', role: 'User', avatarUrl: 'https://picsum.photos/seed/user3/100/100', monthlySalary: 60000, officeId: 'office3', mobileNumber: '345-678-9012', accountNumber: '1122334455', ifscCode: 'GHI0000789', isGeoLockEnabled: true },
@@ -19,7 +17,7 @@ export const users: User[] = [
     id: `${i + 6}`,
     name: `User ${i + 6}`,
     email: `user${i + 6}@example.com`,
-    role: 'User' as const,
+    role: 'User',
     avatarUrl: `https://picsum.photos/seed/user${i + 6}/100/100`,
     monthlySalary: 40000 + i * 1000,
     officeId: `office${i + 5}`,
@@ -30,11 +28,11 @@ export const users: User[] = [
   }))
 ];
 
-export const currentUser: User = users[0];
-export const adminUser: User = users[3];
+export const currentUser = users[0];
+export const adminUser = users[3];
 
 
-export const attendanceRecords: AttendanceRecord[] = [
+export const attendanceRecords = [
   { id: 'a1', userId: '1', userName: 'Alex Johnson', date: '2024-07-28', punchIn: '09:05', punchOut: '17:30', hours: '8.42', status: 'Present', punchInLocation: '34.0522,-118.2437', punchOutLocation: '34.0522,-118.2437', punchInPhoto: 'https://picsum.photos/seed/punch1/200/150', punchOutPhoto: 'https://picsum.photos/seed/punch2/200/150' },
   { id: 'a2', userId: '1', userName: 'Alex Johnson', date: '2024-07-27', punchIn: '09:00', punchOut: '17:00', hours: '8.00', status: 'Present', punchInLocation: '34.0522,-118.2437', punchOutLocation: '34.0522,-118.2437', punchInPhoto: 'https://picsum.photos/seed/punch3/200/150', punchOutPhoto: 'https://picsum.photos/seed/punch4/200/150' },
   { id: 'a3', userId: '1', userName: 'Alex Johnson', date: '2024-07-26', punchIn: 'N/A', punchOut: 'N/A', hours: '0', status: 'On Leave' },
@@ -45,21 +43,21 @@ export const attendanceRecords: AttendanceRecord[] = [
   { id: 'a8', userId: '3', userName: 'James Smith', date: '2024-07-27', punchIn: 'N/A', punchOut: 'N/A', hours: '0', status: 'On Leave' },
 ];
 
-export const leaveRequests: LeaveRequest[] = [
+export const leaveRequests = [
   { id: 'l1', userId: '2', userName: 'Maria Garcia', date: '2024-08-05', reason: 'I have a family event to attend out of state. It is my cousin\'s wedding, and I am a bridesmaid. I will need to travel on Friday and will be back on Sunday evening.', status: 'Pending' },
   { id: 'l2', userId: '3', userName: 'James Smith', date: '2024-08-10', reason: 'I have a scheduled medical appointment for a follow-up consultation with my specialist. The appointment is in the morning and I expect to be back in the office after lunch.', status: 'Pending' },
   { id: 'l3', userId: '5', userName: 'Chen Wei', date: '2024-07-30', reason: 'Personal reasons.', status: 'Approved' },
   { id: 'l4', userId: '1', userName: 'Alex Johnson', date: '2024-07-26', reason: 'Vacation', status: 'Approved' },
 ];
 
-export const holidays: Holiday[] = [
+export const holidays = [
     { date: new Date('2024-08-15'), name: 'Independence Day' },
     { date: new Date('2024-10-02'), name: 'Gandhi Jayanti' },
     { date: new Date('2024-12-25'), name: 'Christmas' },
 ];
 
 // Helper function to calculate working days in a month
-const getWorkingDaysInMonth = (year: number, month: number, holidayList: Holiday[]): number => {
+const getWorkingDaysInMonth = (year, month, holidayList) => {
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     let workingDays = 0;
 
@@ -89,7 +87,7 @@ const getWorkingDaysInMonth = (year: number, month: number, holidayList: Holiday
     return workingDays;
 };
 
-export const payrollData: Payroll[] = users.filter(u => u.role === 'User').map(user => {
+export const payrollData = users.filter(u => u.role === 'User').map(user => {
   const userAttendance = attendanceRecords.filter(rec => rec.userId === user.id && (rec.status === 'Present' || rec.status === 'Late'));
   const totalHours = userAttendance.reduce((acc, rec) => acc + parseFloat(rec.hours), 0);
   const monthlySalary = user.monthlySalary || 0;
@@ -125,14 +123,14 @@ export const payrollData: Payroll[] = users.filter(u => u.role === 'User').map(u
   }
 });
 
-export const notifications: Notification[] = [
+export const notifications = [
     { id: 'n1', userId: '1', title: 'Leave Approved', description: 'Your leave request for 2024-07-26 has been approved.', timestamp: '2 days ago', read: false },
     { id: 'n2', userId: '4', title: 'New Leave Request', description: 'Maria Garcia has requested leave for 2024-08-05.', timestamp: '1 hour ago', read: false },
     { id: 'n3', userId: '4', title: 'New Leave Request', description: 'James Smith has requested leave for 2024-08-10.', timestamp: '3 hours ago', read: true },
     { id: 'n4', userId: '5', title: 'Leave Approved', description: 'Your leave request for 2024-07-30 has been approved.', timestamp: '1 day ago', read: true },
 ];
 
-export const userDocuments: UserDocument[] = [
+export const userDocuments = [
   { id: 'd1', userId: '1', userName: 'Alex Johnson', documentType: 'PAN', fileName: 'alex_pan.pdf', fileUrl: '#', uploadedAt: '2024-07-20' },
   { id: 'd2', userId: '1', userName: 'Alex Johnson', documentType: 'Aadhar', fileName: 'alex_aadhar.pdf', fileUrl: '#', uploadedAt: '2024-07-20' },
   { id: 'd3', userId: '2', userName: 'Maria Garcia', documentType: 'PAN', fileName: 'maria_pan.pdf', fileUrl: '#', uploadedAt: '2024-07-21' },
