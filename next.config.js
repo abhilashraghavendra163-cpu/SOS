@@ -7,6 +7,11 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  devIndicators: {
+    allowedDevOrigins: [
+      "*.cloudworkstations.dev"
+    ],
+  },
   images: {
     remotePatterns: [
       {
