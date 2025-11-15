@@ -7,11 +7,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  devIndicators: {
-    allowedDevOrigins: [
-      "*.cloudworkstations.dev"
-    ],
-  },
   images: {
     remotePatterns: [
       {
@@ -27,7 +22,8 @@ const nextConfig = {
         pathname: '/**',
       },
       {
-        protocol: 'https',
+        protocol: 'https'
+        ,
         hostname: 'picsum.photos',
         port: '',
         pathname: '/**',
