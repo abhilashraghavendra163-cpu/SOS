@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
 import {
   SidebarProvider,
   Sidebar,
@@ -29,12 +26,8 @@ const menuItems = [
   { href: "/admin", tab: "analytics", label: "Analytics", icon: BarChart3 },
 ];
 
-export default function AdminDashboardLayout({
-  children,
-}) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const currentTab = searchParams.get('tab');
+export default function AdminDashboardLayout({ children, searchParams }) {
+  const currentTab = searchParams?.tab;
 
   return (
     <SidebarProvider>
@@ -52,7 +45,7 @@ export default function AdminDashboardLayout({
              <SidebarMenuItem>
                 <Link href="/admin">
                   <SidebarMenuButton
-                    data-active={pathname === '/admin' && !currentTab}
+                    data-active={!currentTab}
                     tooltip="Dashboard"
                   >
                     <LayoutDashboard />
