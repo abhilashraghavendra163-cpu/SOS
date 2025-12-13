@@ -15,10 +15,16 @@ import { HolidaysTab } from "../components/admin/HolidaysTab";
 import Link from 'next/link';
 import { StatCard } from '../components/user/StatCard';
 import { users, leaveRequests, attendanceRecords } from '@/lib/data';
+import { useRouter } from 'next/navigation';
 
 function AdminDashboardContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const tab = searchParams.get('tab');
+
+  const handleTabChange = (value) => {
+    router.push(`/admin?tab=${value}`);
+  };
 
   if (!tab) {
     const pendingLeaves = leaveRequests.filter(lr => lr.status === 'Pending').length;
@@ -56,16 +62,16 @@ function AdminDashboardContent() {
   }
 
   return (
-    <Tabs defaultValue={tab} value={tab} className="w-full">
+    <Tabs defaultValue={tab} value={tab} onValueChange={handleTabChange} className="w-full">
         <TabsList className="grid w-full h-auto grid-cols-2 sm:grid-cols-4 lg:grid-cols-8">
-            <TabsTrigger value="attendance" asChild><Link href="/admin?tab=attendance"><CalendarDays className="mr-2 h-4 w-4" />Attendance</Link></TabsTrigger>
-            <TabsTrigger value="leaves" asChild><Link href="/admin?tab=leaves"><CalendarCheck className="mr-2 h-4 w-4" />Leave Requests</Link></TabsTrigger>
-            <TabsTrigger value="users" asChild><Link href="/admin?tab=users"><Users className="mr-2 h-4 w-4" />User Management</Link></TabsTrigger>
-            <TabsTrigger value="offices" asChild><Link href="/admin?tab=offices"><Building className="mr-2 h-4 w-4" />Offices</Link></TabsTrigger>
-            <TabsTrigger value="holidays" asChild><Link href="/admin?tab=holidays"><CalendarX2 className="mr-2 h-4 w-4" />Holidays</Link></TabsTrigger>
-            <TabsTrigger value="documents" asChild><Link href="/admin?tab=documents"><FileArchive className="mr-2 h-4 w-4" />Documents</Link></TabsTrigger>
-            <TabsTrigger value="payroll" asChild><Link href="/admin?tab=payroll"><Wallet className="mr-2 h-4 w-4" />Payroll</Link></TabsTrigger>
-            <TabsTrigger value="analytics" asChild><Link href="/admin?tab=analytics"><BarChart3 className="mr-2 h-4 w-4" />Analytics</Link></TabsTrigger>
+            <TabsTrigger value="attendance"><CalendarDays className="mr-2 h-4 w-4" />Attendance</TabsTrigger>
+            <TabsTrigger value="leaves"><CalendarCheck className="mr-2 h-4 w-4" />Leave Requests</TabsTrigger>
+            <TabsTrigger value="users"><Users className="mr-2 h-4 w-4" />User Management</TabsTrigger>
+            <TabsTrigger value="offices"><Building className="mr-2 h-4 w-4" />Offices</TabsTrigger>
+            <TabsTrigger value="holidays"><CalendarX2 className="mr-2 h-4 w-4" />Holidays</TabsTrigger>
+            <TabsTrigger value="documents"><FileArchive className="mr-2 h-4 w-4" />Documents</TabsTrigger>
+            <TabsTrigger value="payroll"><Wallet className="mr-2 h-4 w-4" />Payroll</TabsTrigger>
+            <TabsTrigger value="analytics"><BarChart3 className="mr-2 h-4 w-4" />Analytics</TabsTrigger>
         </TabsList>
         <div className="mt-6">
             <TabsContent value="attendance"><AttendanceTab /></TabsContent>
