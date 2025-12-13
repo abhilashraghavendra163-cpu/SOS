@@ -1,9 +1,9 @@
 "use client"
 
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Suspense } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CalendarDays, CalendarCheck, Users, Wallet, BarChart3, FileArchive, Building, LayoutDashboard, CalendarX2 } from "lucide-react";
+import { CalendarDays, CalendarCheck, Users, Wallet, BarChart3, FileArchive, Building, CalendarX2 } from "lucide-react";
 import { AttendanceTab } from "../components/admin/AttendanceTab";
 import { LeaveRequestsTab } from "../components/admin/LeaveRequestsTab";
 import { UserManagementTab } from "../components/admin/UserManagementTab";
@@ -12,10 +12,8 @@ import { AnalyticsTab } from "../components/admin/AnalyticsTab";
 import { DocumentsTab } from "../components/admin/DocumentsTab";
 import { OfficesTab } from "../components/admin/OfficesTab";
 import { HolidaysTab } from "../components/admin/HolidaysTab";
-import Link from 'next/link';
 import { StatCard } from '../components/user/StatCard';
 import { users, leaveRequests, attendanceRecords } from '@/lib/data';
-import { useRouter } from 'next/navigation';
 
 function AdminDashboardContent() {
   const searchParams = useSearchParams();
